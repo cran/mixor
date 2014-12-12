@@ -1,0 +1,6 @@
+useDynLib(mixor, mainloop)
+exportPattern(mixord, print.mixor, summary.mixor, coef.mixor, vcov.mixor, Contrasts, plot.mixor)
+S3method(print, mixor)
+S3method(summary, mixor)
+S3method(coef, mixor)
+S3method(vcov, mixor)
