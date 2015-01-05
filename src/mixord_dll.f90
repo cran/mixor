@@ -1613,8 +1613,7 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    INTEGER                                        :: H,H2,IC,IC0,IC2,ICOUNT
    INTEGER                                        :: IDI,IH,IND,INDC,INDD,INDD2
    INTEGER                                        :: IW,J,K,KK,KKK,L,L0,L1,L2
-   INTEGER                                        :: LM,NII,NSAME,NSAMES
-   INTEGER                                        :: I,IX,PNII,R2,RNII!,TEMP_I
+   INTEGER                                        :: LM,NII,I,IX,PNII,R2,RNII
    INTEGER                                        :: RIDGEIT,Q,ITLAST,IFIN
    INTEGER                                        :: ISIG,NONPOS,IGO
    INTEGER                                        :: NQ,NQR,NQRR,NGAM1
@@ -1624,7 +1623,7 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    REAL (KIND=8)                                  :: BIGCOR,CSTAT,DERIV,DERIV0
    REAL (KIND=8)                                  :: DERIV1,DET,HPROB,PROB
    REAL (KIND=8)                                  :: PROBP0,PROBP1,PSUM,QMULT
-   REAL (KIND=8)                                  :: RLOGDIFF,RSAMES,SCAL,SIGN
+   REAL (KIND=8)                                  :: RLOGDIFF,SCAL,SIGN
    REAL (KIND=8)                                  :: STEP,SUMW,WTSUBI,XMU,XTB
    REAL (KIND=8)                                  :: Z,Z0,Z1,WTAU
    REAL (KIND=8)                                  :: PHIFN,phiy,sbcn
@@ -1695,8 +1694,6 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
 
    CALL QUADP(IBQ0,IBQ1,IAQ0,NQ1,NQ,IRT,IUNIF,IAQ1,IAQ2)
 
-
-
    ! *****************************************************
    !  set up for iterations
    ! *****************************************************
@@ -1704,6 +1701,7 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    ITLAST = 0 
    RIDGE  = 0.0D0
    RIDGEMAX = 0.0D0
+   ridgeit = 0
    IFIN   = 1
    !NORI   = 0
    !ND     = 0
@@ -1739,100 +1737,6 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
       ELSE
          STEP = 1.0D0
       ENDIF
-
-
-
-      ! CHECK TO SEE IF LESS RANDOM-EFFECTS ARE TO
-      ! BE ESTIMATED AND MODIFY ALPHA POINTER
-      ! R, P, AND NPAR ACCORDINGLY
-      !IF (IRBAD .GE. 1) THEN
-      !   IRBAD   = 0
-      !   ISIG    = 0
-      !   IER     = 0
-      !   NONPOS  = 1
-      
-         ! NORI    = 0
-         ! rloglp  = -999999999999999.0D0
-         
-         ! Must insert an element into first position 
-         ! will be filled in below from ALPHA0
-         
-         !TEMP_I = UBOUND(ALPHA,1)
-         !DEALLOCATE(ALPHA)
-         !ALLOCATE(ALPHA(TEMP_I+1))
-         !ALPHA(:) = 0
-         ! Shift the contents of ALAB up one and fill
-         ! in the first location with BLAB.
-      !   TEMP_I = UBOUND(ALAB,1)
-      !   IF (ALLOCATED(TEMPLABEL)) DEALLOCATE(TEMPLABEL)
-      !   ALLOCATE(TEMPLABEL(TEMP_I+1))
-      !   TEMPLABEL(2:) = ALAB   ! Array copy to temp
-      !   DEALLOCATE(ALAB)
-      !   ALLOCATE(ALAB(TEMP_I+1))
-      !   ALAB = TEMPLABEL       ! Array copy
-      !   ALAB(1) = BLAB(UBOUND(BLAB,1))
-      !   
-      !   R  = R-1
-      !   RR = (R * (R+1)) / 2
-      !   P  = P+1
-
-      !   IF (NOMU .EQ. 0) THEN
-      !      npar = p+r+rr+ngam+ks
-      !   ELSE
-      !      npar = p+rr+ngam+ks
-      !   ENDIF
-
-         ! get NEW quadrature nodes & weights  
-
-      !   NQRR = R*(NQ1**R)
-      !   IF (ALLOCATED(IAQ1)) THEN
-      !      IF(UBOUND(IAQ1,1) .NE. NQ1) THEN
-      !         DEALLOCATE(IAQ1)
-      !         ALLOCATE(IAQ1(NQ1))
-      !      ENDIF
-      !      IF(UBOUND(IAQ2,1) .NE. NQRR) THEN
-      !         DEALLOCATE(IAQ2)
-      !         ALLOCATE(IAQ2(NQRR))
-      !      ENDIF
-      !   ELSE
-      !      ALLOCATE(IAQ1(NQ1))
-      !      ALLOCATE(IAQ2(NQRR))
-      !   ENDIF
-
-      !   IF (IVSEP .EQ. 0) THEN
-      !      CALL QUADP(IBQ,IBQ1,IAQ,NQ1,NQ,R,IUNIF,IAQ1,IAQ2)
-      !   ELSE
-      !      CALL QUADP(IBQ,IBQ1,IAQ,NQ1,NQ,1,IUNIF,IAQ1,IAQ2)
-      !   ENDIF
-
-      !   DEALLOCATE ( IAQ1, IAQ2 )
-
-         ! get ORIGINAL starting values
-
-      !   IF (r .ge. 1) THEN
-      !      IF (NOMU .EQ. 0) CALL RELOC(MU0,MU,R,1,0)
-      !      CALL RELOC(SIGMA0,SIGMA,RR,1,0)
-      !   ENDIF
-         
-      !   IF (P .GT. 0) THEN
-         
-            ! note that R now equals the old R minus 1
-            ! so that MU0(R+1) equals the old MU0(R) 
-            ! which should be the last element of mu
-            
-      !      ALPHA(1) = MU0(R+1)
-      !      CALL RELOC(ALPHA0,ALPHA(2),P-1,1,0)
-      !   ENDIF
-         
-      !   IF (NGAM .GT. 0) THEN
-      !      CALL RELOC(GAM0,GAM,NGAM,1,0)
-      !   ENDIF
-
-      !   IF (KS .GT. 0) THEN
-      !      CALL RELOC(TAU0,TAU,KS,1,0)
-      !   ENDIF
-
-      !ENDIF
 
       ! get the exponential of the diagonal of SIGMA
 
@@ -1924,29 +1828,6 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
             IC2         = ICOUNT + (NRP1 * (K-1)) + 1 
             IYI(K) = ALLDAT(IC2)
          END DO
-   
-         !  calculate the number of level-2 units with no variance 
-         !  in terms of level-1 units Y values
-   
-         IF (IT .EQ. 1) THEN
-            IF (I  .EQ. 1) NSAMES = 0
-            CALL YSAME(IYI,NII,NSAME)
-            NSAMES = NSAMES  + NSAME
-            
-            IF (I  .EQ. N .AND. R .GT. 0) THEN
-               RSAMES = 100.0D0 * (DBLE(NSAMES) / DBLE(N))
-               IF (IWT.EQ.0) THEN
-           !       WRITE(2,508)NSAMES,RSAMES
-           !       508 FORMAT(//,1x,'==> The number of level 2 observations with non-varying responses', &
-           !                  /,5x,'= ',I6,' ( ',F6.2,' percent )')  
-               ELSE
-           !       WRITE(2,509)NSAMES,RSAMES
-           !       509 FORMAT(//,1x,'==> The number of level 2 patterns with non-varying responses', &
-           !                  /,5x,'= ',I6,' ( ',F6.2,' percent )')  
-               ENDIF
-            ENDIF
-         ENDIF
-   
    
          ! THE X(K, H) MATRIX  K = 1 .. NI(I)  H = 1 .. R
    
