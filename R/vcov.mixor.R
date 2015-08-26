@@ -1,4 +1,5 @@
 vcov.mixor <-
 function(object, ...) {
-object$varcov
+    dimnames(object$varcov)[[1]]<-dimnames(object$varcov)[[2]]<-dimnames(object$Model)[[1]]
+	object$varcov
 }

@@ -25,16 +25,15 @@ Ramakrishnan V. et al (1992) Elementary methods for the analysis of dichotomous 
 }
 \examples{
 library("mixor")
-
-data(concen)
+data("concen")
 # sort the data by twin pair ID
 concen<-concen[order(concen$ID),]
 # common ICC probit model
-Common.ICC<-mixord(TConcen~Mz, data=concen, id=ID, weights=freq, 
+Common.ICC<-mixor(TConcen~Mz, data=concen, id=ID, weights=freq, 
      link="probit", NQ1=10, random.effect.mean=FALSE)
 summary(Common.ICC)
 # Varying ICC probit model
-Varying.ICC<-mixord(TConcen~Mz+Dz, data=concen, id=ID, weights=freq, 
+Varying.ICC<-mixor(TConcen~Mz+Dz, data=concen, id=ID, weights=freq, 
     which.random.slope=1:2, exclude.fixed.effect=2, link="probit", 
     NQ1=20, random.effect.mean=FALSE, UNID=1)
 summary(Varying.ICC)

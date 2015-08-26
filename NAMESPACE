@@ -1,6 +1,17 @@
 useDynLib(mixor, mainloop)
-exportPattern(mixord, print.mixor, summary.mixor, coef.mixor, vcov.mixor, Contrasts, plot.mixor)
-S3method(print, mixor)
-S3method(summary, mixor)
+
+importFrom("graphics", "hist", "par")
+importFrom("stats", "coef", "contrasts", "is.empty.model","model.extract", "model.matrix", "model.response", "pnorm", "pchisq", "qqline", "qqnorm", "BIC", ".checkMFClasses", "delete.response", "model.frame", "na.fail", "printCoefmat", "terms")
+exportPattern(mixor, mixord, print.mixor, summary.mixor, coef.mixor, vcov.mixor, Contrasts, plot.mixor, logLik.mixor, deviance.mixor, AIC.mixor, BIC.mixor, predict.mixor)
+S3method(AIC, mixor)
+S3method(BIC, mixor)
 S3method(coef, mixor)
+S3method(deviance, mixor)
+S3method(logLik, mixor)
+S3method(plot, mixor)
+S3method(print, mixor)
+S3method(predict, mixor)
+S3method(summary, mixor)
 S3method(vcov, mixor)
+
+

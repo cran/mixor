@@ -1,13 +1,13 @@
-\name{coef.mixor}
-\alias{coef.mixor}
+\name{logLik.mixor}
+\alias{logLik.mixor}
 \title{
-Extract Model Coefficients
+Return the log-likelihood for a Fitted Mixor Model
 }
 \description{
-\code{coef.mixor} is a generic function which extracts the model coefficients from a fitted model object fit using \code{mixor}
+Returns the log-likelihood of a fitted \code{mixor} model. 
 }
 \usage{
-\method{coef}{mixor}(object, ...)
+\method{logLik}{mixor}(object, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,24 +18,22 @@ a \code{mixor} object.
 }
 
 \value{
-Coefficients extracted from the model object.
+Log-likelihood of the fitted \code{mixor} model.
 }
 
 \author{
 Kellie J. Archer, Donald Hedeker, Rachel Nordgren, Robert D. Gibbons
 }
-
-
 \seealso{
-See Also as \code{\link{mixor}}, \code{\link{summary.mixor}}
+See Also as \code{\link{mixor}}, \code{\link{summary.mixor}}, \code{\link{deviance.mixor}}
 }
 \examples{
 library("mixor")
 data("schizophrenia")
-### Random intercept model
+### Random intercept
 SCHIZO1.fit<-mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
-   id=id, link="probit")
-coef(SCHIZO1.fit)
+     id=id, link="probit")
+summary(SCHIZO1.fit)
+logLik(SCHIZO1.fit)
 }
-
 \keyword{ methods }

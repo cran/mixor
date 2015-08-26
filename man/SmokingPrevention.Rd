@@ -31,17 +31,16 @@ Hedeker D and Gibbons R.D. (2006) \emph{Longitudinal Data Analysis}, Wiley, Hobo
 }
 \examples{
 library("mixor")
-
-data(SmokingPrevention)
+data("SmokingPrevention")
 # sort dataset by id; note for these data sorting by class will also sort by school
 SmokingPrevention<-SmokingPrevention[order(SmokingPrevention$class),]
 # school model
-Fitted.school<-mixord(thksord~thkspre+cc+tv+cctv, data=SmokingPrevention, 
+Fitted.school<-mixor(thksord~thkspre+cc+tv+cctv, data=SmokingPrevention, 
      id=school, link="logit")
 summary(Fitted.school)
 vcov(Fitted.school)
 # students in classrooms analysis; not run 
-#Fitted.students<-mixord(thksord~thkspre+cc+tv+cctv, data=SmokingPrevention, 
+#Fitted.students<-mixor(thksord~thkspre+cc+tv+cctv, data=SmokingPrevention, 
 #     id=class, link="logit")
 #summary(Fitted.students)
 #vcov(Fitted.students)

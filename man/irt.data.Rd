@@ -32,17 +32,16 @@ Mislevy R.J. (1985) Estimation of latent group effects \emph{Journal of the Amer
 }
 \examples{
 library("mixor")
-
-data(irt.data)
+data("irt.data")
 ## Sort data by ID
 irt.data<-irt.data[order(irt.data$ID),]
 # 2 parameter logistic IRT model
-Fitted.irt<-mixord(Resp~Item1+Item2+Item3+Item4-1, data=irt.data, id=ID, 
+Fitted.irt<-mixor(Resp~Item1+Item2+Item3+Item4-1, data=irt.data, id=ID, 
      weights=freq, which.random.slope=1:4, link="logit", NQ1=10, 
 	 random.effect.mean=FALSE, UNID=1, vcov=FALSE)
 summary(Fitted.irt)
 # 2 parameter logistic IRT model with Sex interations on item parameters
-Fitted.irt2<-mixord(Resp~Item1+Item2+Item3+Item4+SexItem1+SexItem2+SexItem3+SexItem4-1, 
+Fitted.irt2<-mixor(Resp~Item1+Item2+Item3+Item4+SexItem1+SexItem2+SexItem3+SexItem4-1, 
      data=irt.data, id=ID, weights=freq, which.random.slope=1:8, link="logit", 
 	 NQ1=10, random.effect.mean=FALSE, UNID=1, vcov=FALSE)
 summary(Fitted.irt2)

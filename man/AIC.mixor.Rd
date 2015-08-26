@@ -1,13 +1,13 @@
-\name{coef.mixor}
-\alias{coef.mixor}
+\name{AIC.mixor}
+\alias{AIC.mixor}
 \title{
-Extract Model Coefficients
+Return AIC for a Fitted Mixor Model
 }
 \description{
-\code{coef.mixor} is a generic function which extracts the model coefficients from a fitted model object fit using \code{mixor}
+Returns the AIC of a fitted \code{mixor} model. 
 }
 \usage{
-\method{coef}{mixor}(object, ...)
+\method{AIC}{mixor}(object, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +18,7 @@ a \code{mixor} object.
 }
 
 \value{
-Coefficients extracted from the model object.
+AIC of the fitted \code{mixor} model.
 }
 
 \author{
@@ -26,16 +26,18 @@ Kellie J. Archer, Donald Hedeker, Rachel Nordgren, Robert D. Gibbons
 }
 
 
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
 \seealso{
 See Also as \code{\link{mixor}}, \code{\link{summary.mixor}}
 }
 \examples{
 library("mixor")
 data("schizophrenia")
-### Random intercept model
+### Random intercept
 SCHIZO1.fit<-mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
-   id=id, link="probit")
-coef(SCHIZO1.fit)
+     id=id, link="probit")
+summary(SCHIZO1.fit)
+AIC(SCHIZO1.fit)
 }
-
 \keyword{ methods }

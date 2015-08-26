@@ -1,25 +1,26 @@
-\name{plot.mixor}
-\alias{plot.mixor}
+\name{deviance.mixor}
+\alias{deviance.mixor}
 \title{
-Plot empirical Bayes estimates of random effects for a Mixor Model Object
+Return the deviance for a Fitted Mixor Model
 }
 \description{
-Plot of empirical Bayes estimates of random effects from a fitted \code{mixor} model object. 
+Returns the deviance of a fitted \code{mixor} model. 
 }
 \usage{
-\method{plot}{mixor}(x, ...)
+\method{deviance}{mixor}(object, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
+  \item{object}{
 a \code{mixor} object.
 }
   \item{\dots}{other arguments.}
 }
 
 \value{
-For each random effect, a histogram and normal quantile-quantile plot of empirical Bayes estimates. 
+Deviance of the fitted \code{mixor} model.
 }
+
 \author{
 Kellie J. Archer, Donald Hedeker, Rachel Nordgren, Robert D. Gibbons
 }
@@ -28,7 +29,7 @@ Kellie J. Archer, Donald Hedeker, Rachel Nordgren, Robert D. Gibbons
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-See Also as \code{\link{mixor}}, \code{\link{summary.mixor}}
+See Also as \code{\link{mixor}}, \code{\link{summary.mixor}}, \code{\link{logLik.mixor}}
 }
 \examples{
 library("mixor")
@@ -36,6 +37,7 @@ data("schizophrenia")
 ### Random intercept
 SCHIZO1.fit<-mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
      id=id, link="probit")
-plot(SCHIZO1.fit)
+summary(SCHIZO1.fit)
+deviance(SCHIZO1.fit)
 }
 \keyword{ methods }

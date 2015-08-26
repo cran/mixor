@@ -32,18 +32,17 @@ Hedeker D and Gibbons R.D. (2006) \emph{Longitudinal Data Analysis}, Wiley, Hobo
 }
 \examples{
 library("mixor")
-
-data(schizophrenia)
+data("schizophrenia")
 ### Random intercept
-SCHIZO1.fit<-mixord(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
+SCHIZO1.fit<-mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
      id=id, link="probit")
 summary(SCHIZO1.fit)
 ### Random intercept and slope	
-SCHIZO2.fit<-mixord(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
+SCHIZO2.fit<-mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
      id=id, which.random.slope=2, link="probit")
 summary(SCHIZO2.fit)
 # random intercept and trend with independent random effects; using logit link
-SCHIZO3.fit<-mixord(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
+SCHIZO3.fit<-mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, data=schizophrenia, 
      id=id, which.random.slope=2, indep.re=TRUE, link="logit")
 summary(SCHIZO3.fit)
 }
