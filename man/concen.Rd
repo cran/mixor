@@ -30,12 +30,12 @@ data("concen")
 concen<-concen[order(concen$ID),]
 # common ICC probit model
 Common.ICC<-mixor(TConcen~Mz, data=concen, id=ID, weights=freq, 
-     link="probit", NQ1=10, random.effect.mean=FALSE)
+     link="probit", nAGQ=10, random.effect.mean=FALSE)
 summary(Common.ICC)
 # Varying ICC probit model
 Varying.ICC<-mixor(TConcen~Mz+Dz, data=concen, id=ID, weights=freq, 
     which.random.slope=1:2, exclude.fixed.effect=2, link="probit", 
-    NQ1=20, random.effect.mean=FALSE, UNID=1)
+    nAGQ=20, random.effect.mean=FALSE, UNID=1)
 summary(Varying.ICC)
 }
 \keyword{datasets}

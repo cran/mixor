@@ -8,21 +8,13 @@ Mixed-Effects Ordinal Regression Analysis
 This package provides a function \code{mixor} for fitting mixed-effects ordinal and binary response models and associated methods for printing, summarizing, extracting estimated coefficients and the variance-covariance matrix, and estimating contrasts for the fitted models.
 }
 \details{
-\tabular{ll}{
-Package: \tab mixor\cr
-Type: \tab Package\cr
-Version: \tab 1.0.3\cr
-Date: \tab 2015-06-19\cr
-License: \tab GPL2.0\cr
-}
+\packageDESCRIPTION{mixor}
+\packageIndices{mixor}
 This package provides a function \code{mixor} for fitting mixed-effects ordinal and binary response models and associated methods for printing, summarizing, extracting estimated coefficients and the variance-covariance matrix, and estimating contrasts for the fitted models.
 }
-
 \author{
-Kellie J. Archer, Donald Hedeker, Rachel Nordgren, Robert D. Gibbons
-
-Maintainer: Donald Hedeker <DHedeker@health.bsd.uchicago.edu>
-Kellie J. Archer <kjarcher@vcu.edu>
+\packageAuthor{mixor} Kellie J. Archer, Donald Hedeker, Rachel Nordgren, Robert D. Gibbons
+Maintainer: \packageMaintainer{mixor} Kellie J. Archer <archer.43@osu.edu>
 }
 \references{
 Hedeker D. and Gibbons R.D. (1996) A computer program for mixed-effects ordinal regression analysis. \emph{Computer Methods and Programs in Biomedicine} 49, 157-176.
@@ -45,7 +37,7 @@ summary(Fitted.school)
 vcov(Fitted.school)
 # students in classrooms analysis 
 Fitted.students<-mixor(thksord~thkspre+cc+tv+cctv, data=SmokingPrevention, 
-   id=class, link="logit", NQ1=11)
+   id=class, link="logit", nAGQ=11)
 summary(Fitted.students)
 coef(Fitted.students)
 vcov(Fitted.students)

@@ -9,7 +9,7 @@ This function fits mixed-effects ordinal and binary response models. Various lin
 \usage{
 mixor(formula, data, id, which.random.slope = NA, subset, weights, 
 	exclude.fixed.effect = NA, CONV = 1e-04, empirical.prior = FALSE, 
-	quadrature.dist = "Normal", NQ1 = 11, adaptive.quadrature = TRUE, 
+	quadrature.dist = "Normal", nAGQ = 11, adaptive.quadrature = TRUE, 
 	link = "probit", KG = 0, KS = 0, IADD = -1, indep.re = FALSE, 
 	random.effect.mean = TRUE, UNID = 0, vcov = TRUE)
 }
@@ -44,8 +44,8 @@ logical. If TRUE, uses empirical prior for random effects.
   \item{quadrature.dist}{
 distribution for random effects. Either \code{"Normal"} (default) or \code{"Uniform"}.
 }
-  \item{NQ1}{
-number of quadrature nodes per dimension. For one random effect, NQ1=20 is reasonable but should be reduced to 5-10 for multiple random effects.
+  \item{nAGQ}{
+number of quadrature nodes per dimension. For one random effect, nAGQ=20 is reasonable but should be reduced to 5-10 for multiple random effects.
 }
   \item{adaptive.quadrature}{
 logical indicating whether adaptive quadrature (default) or non-adaptive quadrature is performed.

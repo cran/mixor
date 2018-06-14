@@ -1,12 +1,11 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
 % \VignetteIndexEntry{An R Package for Longitudinal and Clustered Ordinal Response Modeling} 
-% \VignetteDepends{survival} 
 % \VignetteKeyword{models}
 %% no need \usepackage{Sweave.sty}
 \documentclass[article, shortclass, nojss]{jss}
 \usepackage{amsmath, graphicx}
 \title{\pkg{mixor}: An \proglang{R} Package for Longitudinal and Clustered Ordinal Response Modeling}
-\author{Kellie J. Archer\\Virginia Commonwealth University \And 
+\author{Kellie J. Archer\\The Ohio State University \And 
    Donald Hedeker\\\\University of Chicago \And 
    Rachel Nordgren\\University of Illinois Chicago \And 
    Robert D. Gibbons\\\\University of Chicago }
@@ -21,18 +20,18 @@
 \Plaintitle{mixor: An R Package for for Longitudinal and Clustered Ordinal Response Modeling}
 \Shorttitle{An \proglang{R} Package for Longitudinal Ordinal Response Models}
 
-\Abstract{This paper describes an \proglang{R} package, \pkg{mixor}, that provides a function for fitting an ordinal response model when observations are either clustered or collected longitudinally. The function, \code{mixor} uses either adaptive (default) or non-adaptive Gauss-Hermite quadrature to numerically integrate over of distribution of random effects and Fisher scoring to obtain the likelihood solution, as described by \citet{MIXOR}. Generic methods including \code{summary}, \code{print},  \code{vcov}, \code{plot}, \code{predict}, and \code{coef} can be applied to a \code{mixor} object. Examples of modeling longitudinal data, clustered data, grouped survival times, and weighted data are provided. }
+\Abstract{This paper describes an \proglang{R} package, \pkg{mixor}, that provides a function for fitting an ordinal response model when observations are either clustered or collected longitudinally. The function, \code{mixor} uses either adaptive (default) or non-adaptive Gauss-Hermite quadrature to numerically integrate over the distribution of random effects and Fisher scoring to obtain the likelihood solution, as described by \citet{MIXOR}. Generic methods including \code{summary}, \code{print},  \code{vcov}, \code{plot}, \code{predict}, and \code{coef} can be applied to a \code{mixor} object. Examples of modeling longitudinal data, clustered data, grouped survival times, and weighted data are provided. }
 \Keywords{ordinal response, longitudinal data, clustered data, random effects, \proglang{R}}
 \Plainkeywords{ordinal response, longitudinal data, clustered data, random effects, R}
 
 \Address{
 Kellie J. Archer\\
-Department of Biostatistics\\
-Virginia Commonwealth University\\
-Box 980032\\
-Richmond, VA 23298-0032\\
-E-mail: \email{kjarcher@vcu.edu}\\
-URL: \url{http://www.people.vcu.edu/~kjarcher/}\\
+Division of Biostatistics\\
+The Ohio State University\\
+1841 Neil Ave\\
+Columbus, OH 43210\\
+E-mail: \email{archer.43@use.edu}\\
+URL: \url{https://cph.osu.edu/people/karcher}\\
  \\
 Donald Hedeker\\
 Department of Public Health Sciences\\
@@ -41,7 +40,7 @@ The University of Chicago Biological Sciences\\
 Room W254, MC2000\\
 Chicago, IL 60637\\
 E-mail: \email{hedeker@uchicago.edu}\\
-URL: \url{http://health.bsd.uchicago.edu/People/Donald-Hedeker}\\
+URL: \url{https://hedeker-sites.uchicago.edu}\\
 \\
 Rachel Nordgren\\
 Division of Epidemiology and Biostatistics\\
@@ -73,7 +72,7 @@ Health status and outcomes, such as quality of life, functional status, and pati
 
 Several software packages include procedures for fitting mixed models for ordinal outcomes, however \pkg{MIXOR} contains some unique features.  \pkg{MIXOR} uses full-likelihood methods to estimate the model parameters, which is also the default method in \proglang{Stata} \code{meologit}, and can be obtained in  \proglang{SAS} \code{PROC GLIMMIX}.  Alternatively, \proglang{IBM SPSS} only provides 
 quasi-likelihood solutions.  All of these major software programs only provide for proportional odds models (or the equivalent under the probit or clog-log links), and thus cannot be used 
-to estimate partial-, non-proportional odds, and scaling models described in Sections~\ref{survival} and ~\ref{nonprop}.  Even if one is not interested in a non-proportional odds model, by being able to estimate such a model, users can perform a likelihood-ratio test of the proportional odds assumption.  Such a test is not possible with these other software programs.  Furthermore, estimation of survival models, as described in Section~\ref{survival}, is also unique to \pkg{MIXOR}.  Finally, \pkg{MIXOR}, which is written in \proglang{Fortran}, is a relatively fast program which can easily accommodate multiple (correlated) random effects.  
+to estimate partial, non-proportional odds, and scaling models described in Sections~\ref{survival} and ~\ref{nonprop}.  Even if one is not interested in a non-proportional odds model, by being able to estimate such a model, users can perform a likelihood-ratio test of the proportional odds assumption.  Such a test is not possible with these other software programs.  Furthermore, estimation of survival models, as described in Section~\ref{survival}, is also unique to \pkg{MIXOR}.  Finally, \pkg{MIXOR}, which is written in \proglang{Fortran}, is a relatively fast program which can easily accommodate multiple (correlated) random effects.  
 
 
 \section{Ordinal response model}
@@ -129,13 +128,13 @@ Details on the maximum marginal likelihood estimation procedure which uses multi
 
 
 \section{Implementation}
-The \pkg{mixor} package was written in the \proglang{R} programming environment \citep{RTeam} and requires the \pkg{survival} package \citep{survival} when fitting discrete survival time models.  The \code{mixor} function allows the user to specify a model formula, identify the level-2 identifier using the \code{id} parameter, and additionally specify whether any variables have a random slope (\code{which.random.slope}). The function also supports fitting non-proportional odds models by specifying the variables for which proportional odds is not assumed (\code{KG}) and can fit scaling models (\code{KS}). The function parses the user-specified parameters which are subsequently passed to a \pkg{MIXOR} \proglang{Fortran} dynamic linked library \citep{MIXOR} and results are returned to the fitted object in the form of a list. The default link is \code{link = "probit"}. Other allowable links include \code{logit} and \code{cloglog}. The function uses adaptive quadrature with 11 quadrature points by default which can be changed by specifying \code{adaptive.quadrature = FALSE} to perform non-adaptive quadrature; the number of quadrature points to be used for each dimension of the integration can be changed by specifying a different integer value to \code{NQ1} in the function call. By default the quadrature distribution is normal (\code{quadrature.dist = "Normal"}) but the function supports usage of a uniform distribution (\code{quadrature.dist = "Uniform"}). Also, by default the random effects are assumed to be correlated; if independent random effects are assumed, then \code{indep.re = FALSE} should be specified. Generic methods for returning coefficient estimates, printing summaries, extracting variance-covariance estimates, and obtaining predictions from the fitted model are available using \code{print}, \code{coef}, \code{summary}, \code{plot}, \code{vcov}, and \code{predict}.
+The \pkg{mixor} package was written in the \proglang{R} programming environment \citep{RTeam} and requires the \pkg{survival} package \citep{survival} when fitting discrete survival time models.  The \code{mixor} function allows the user to specify a model formula, identify the level-2 identifier using the \code{id} parameter, and additionally specify whether any variables have a random slope (\code{which.random.slope}). The function also supports fitting non-proportional odds models by specifying the variables for which proportional odds is not assumed (\code{KG}) and can fit scaling models (\code{KS}). The function parses the user-specified parameters which are subsequently passed to a \pkg{MIXOR} \proglang{Fortran} dynamic linked library \citep{MIXOR} and results are returned to the fitted object in the form of a list. The default link is \code{link = "probit"}. Other allowable links include \code{logit} and \code{cloglog}. The function uses adaptive quadrature with 11 quadrature points by default which can be changed by specifying \code{adaptive.quadrature = FALSE} to perform non-adaptive quadrature; the number of quadrature points to be used for each dimension of the integration can be changed by specifying a different integer value to \code{nAGQ} in the function call. By default the quadrature distribution is normal (\code{quadrature.dist = "Normal"}) but the function supports usage of a uniform distribution (\code{quadrature.dist = "Uniform"}). Also, by default the random effects are assumed to be correlated; if independent random effects are assumed, then \code{indep.re = TRUE} should be specified. Generic methods for returning coefficient estimates, printing summaries, extracting variance-covariance estimates, and obtaining predictions from the fitted model are available using \code{print}, \code{coef}, \code{summary}, \code{plot}, \code{vcov}, and \code{predict}.
 
 \section{Examples}
 The \pkg{mixor} package includes example datasets that are useful for demonstrating modeling a longitudinal ordinal response (\code{schizophrenia}), grouped survival data (\code{SmokeOnset}), frequency weighted data (\code{norcag}), and clustered ordinal response (\code{concen}). 
 
 \subsection{Longitudinal data}
-These data are from the National Institute of Mental Health Schizophrenia Collaborative Study and are stored in the \code{data.frame} \code{schizophrenia} \citep{Gibbons}. Patients were randomized to receive one of four medications, either placebo or one of three different anti-psychotic drugs. The protocol indicated subjects were to then be evaluated at weeks 0, 1, 3, 6 to assess severity of illness; additionally some measurements were made at weeks 2, 4, and 5. The primary outcome is item 79 on the Inpatient Multidimensional Psychiatric Scale which indicates severity of illness. We will analyze \code{imps79o} which is an ordinally scaled version of the  original variable \code{imps79} which has the following interpretation: 1 = normal, not ill at all; 2 = borderline mentally ill; 3 = mildly ill; 4 = moderately ill; 5 = markedly ill; 6 = severly ill; and 7 = among the most extremely ill. The four category ordinal version (\code{imps79o}) grouped the responses as follows: 
+These data are from the National Institute of Mental Health Schizophrenia Collaborative Study and are stored in the \code{data.frame} \code{schizophrenia} \citep{Gibbons}. Patients were randomized to receive one of four medications, either placebo or one of three different anti-psychotic drugs (chlorpromazine, fluphenazine, or thioridazine). The protocol indicated subjects were to be evaluated at weeks 0, 1, 3, 6 to assess severity of illness; additionally some measurements were made at weeks 2, 4, and 5. The primary outcome was item 79 on the Inpatient Multidimensional Psychiatric Scale which indicates severity of illness having the following interpretation: 1 = normal, not ill at all; 2 = borderline mentally ill; 3 = mildly ill; 4 = moderately ill; 5 = markedly ill; 6 = severly ill; and 7 = among the most extremely ill. Because the number of subjects in the response categories was highly imbalanced, the response was previously analyzed as a dichotomous variable ($\le3$ vs $\ge4$) \citep{Gibbons}. To retain more information about the response but to ensure each response category has a relatively large number of respondents, here we analyze \code{imps79o}, which is an ordinally scaled version of the  original variable \code{imps79}.  The four category ordinal version (\code{imps79o}) grouped the responses as follows: 
 
 \begin{center}
 \begin{tabular}{c l}
@@ -203,7 +202,7 @@ table(pihat$class, schizophrenia$imps79o)
 head(pihat$predicted)
 @
 
-\subsubsection{Random intercept and trend}
+\subsubsection{Random intercept and slope}
 It may be of interest to account for subject heterogeneity through both the intercept and by time. A model that includes a random intercept and slope can be fit by additionally specifying the index corresponding to the variable(s) on the right-hand side (RHS) of the equation that should have a random coefficient(s) using the \code{which.random.slope} parameter. Note that multiple variables can be specified by the \code{which.random.slope} parameter. For example, \code{which.random.slope=c(1,3)} indicates that the first and third variables listed on the RHS of the model formula should be random coefficients. In this example, \code{SqrtWeek} is the second variable listed in the RHS of the model formula and allowing it to have a random coefficient is specified by \code{which.random.slope=2}. The variance-covariance matrix of the random effects is returned (\code{(Intercept) (Intercept)}, \code{(Intercept) SqrtWeek}, \code{SqrtWeek SqrtWeek}) rather than the Cholesky, which is returned in the original stand-alone \proglang{Fortran} implementation of \pkg{MIXOR}.
 <<echo=TRUE>>=	
 SCHIZO2.fit <- mixor(imps79o ~ TxDrug + SqrtWeek + TxSWeek, 
@@ -249,21 +248,21 @@ smkonset    &    event &  description\\ \hline
 \end{center}
 \label{smkoutcomes}
 \end{table}%
-Therefore this dataset represents grouped-time survival data which can be modeled via the \code{mixor} function using \code{link="cloglog"} to yield a proportional hazards survival model.
+This dataset represents grouped-time survival data which can be modeled via the \code{mixor} function using \code{link="cloglog"} to yield a proportional hazards survival model.
 
 The first example represents \code{class} as the level-2 variable. The \code{IADD} parameter indicates whether the $\mathbf{x}^\top\bet$ term is added (\code{IADD=1}) or subtracted (\code{IADD=0}, default) from the thresholds in Equation~\ref{prob}. In survival models, it is customary that positive regression coefficients represent increased hazard so \code{IADD=1} is specified here.
 <<echo=TRUE>>=	
 data("SmokeOnset")
 require("survival")
 Surv.mixord <- mixor( Surv(smkonset, event) ~ SexMale + cc + tv, 
-  data = SmokeOnset, id = class, link = "cloglog", NQ1 = 20, 
+  data = SmokeOnset, id = class, link = "cloglog", nAGQ = 20, 
   IADD = 1)
 summary(Surv.mixord)
 @
 Note that while there are only three possible outcomes for \code{smkonset}, due to censoring in the data there are three thresholds (\code{Intercept}, \code{Threshold2}, and \code{Threshold3}) because the last threshold is like an additional category beyond \code{smkonset=3}. Alternatively, we can perform a students in schools analysis. 
 <<echo=TRUE>>=
 School.mixord <- mixor(Surv(smkonset, event) ~ SexMale + cc + tv, 
-  data = SmokeOnset, id = school, link = "cloglog", NQ1 = 20, IADD = 1)
+  data = SmokeOnset, id = school, link = "cloglog", nAGQ = 20, IADD = 1)
 summary(School.mixord)
 @
 
@@ -271,7 +270,7 @@ The last example demonstrates a students in classrooms analysis with varying sex
 
 <<echo=TRUE>>=
 students.mixord <- mixor( Surv(smkonset, event) ~ SexMale + cc + tv, 
-  data = SmokeOnset, id = class, link = "cloglog", KG = 1, NQ1 = 20, 
+  data = SmokeOnset, id = class, link = "cloglog", KG = 1, nAGQ = 20, 
   IADD = 1)
 summary(students.mixord)
 @
@@ -304,7 +303,7 @@ The \code{mixor} function also accomodates weighted data where the data are stor
 <<echo=TRUE>>=
 data("norcag")
 Fitted.norcag <- mixor(SexItems ~ Item2vs1 + Item3vs1, 
-  data = norcag, id = ID, weights = freq, link = "logit", NQ1 = 20)
+  data = norcag, id = ID, weights = freq, link = "logit", nAGQ = 20)
 summary(Fitted.norcag)
 @
 
@@ -312,7 +311,7 @@ To fit this model without the proportional odds assumption, the \code{KG} parame
 
 <<echo=TRUE>>=
 Fitted.norcag.np <- mixor(SexItems ~ Item2vs1 + Item3vs1, 
-  data = norcag, id = ID, weights = freq, link = "logit", NQ1 = 10, 
+  data = norcag, id = ID, weights = freq, link = "logit", nAGQ = 10, 
   KG = 2)
 summary(Fitted.norcag.np)
 @
@@ -328,7 +327,7 @@ The \code{mixor} function also allows the user to specify covariates that influe
 where $\wbold_{ij}$ is the design matrix for the covariates that influence scale and $\taubold$ are their effects \citep{HedekerScale}. The \code{KS} parameter is specified in the same way that \code{KG} is; the order of the variables on the RHS is important because the integer value passed to \code{KS} represents the number of variables, starting with the first, for scaling. 
 <<echo=TRUE>>=
 Fitted.norcag.scale <- mixor(SexItems ~ Item2vs1 + Item3vs1, 
-  data = norcag, id = ID, weights = freq, link = "logit", NQ1 = 10, 
+  data = norcag, id = ID, weights = freq, link = "logit", nAGQ = 10, 
   KS = 2)
 summary(Fitted.norcag.scale)
 @
@@ -338,17 +337,16 @@ more dispersed across the 4 categories than for Item 1.  Alternatively, the esti
 indicating that Items 1 and 3 are similarly dispersed across the 4 response categories. 
 
 \subsection{Clustered data: varying ICC model}
-An example of naturally clustered data is twins clustered within twin pair. The outcome in the \code{concen} data reflects trouble concentrating (\code{TConcen}) which was recorded for both monozygotic and dizygotic twins \citep{Ramesh}. Each twin pair is uniquely identified by \code{ID} and type of twin is recorded using two dummy variables: \code{Mz}, an indicator variable representing MZ twins (\code{1} = MZ, \code{0} = DZ) and \code{Dz}, an indicator variable representing DZ twins (\code{1} = DZ, \code{0} = MZ). These data are also frequency weighted such that \code{freq} represents the frequency of the pattern.
+An example of naturally clustered data is twins clustered within twin pair. The outcome in the \code{concen} data reflects trouble concentrating (\code{TConcen}) which was recorded for both monozygotic and dizygotic twins \citep{Ramesh}. Each twin pair is uniquely identified by \code{ID} and type of twin is recorded using two dummy variables: \code{Mz}, an indicator variable representing MZ twins (\code{1} = MZ, \code{0} = DZ) and \code{Dz}, an indicator variable representing DZ twins (\code{1} = DZ, \code{0} = MZ). These data are also frequency weighted such that \code{freq} represents the frequency of the pattern. Prior to fitting the model, the data must be sorted by ID.
 
-The \code{mixor} function requires the data to be sorted by the \code{id} variable, which is performed prior to the function call.
 <<echo=TRUE>>=
 data("concen")
-concen<-concen[order(concen$ID),] 
+concen<-concen[order(concen$ID),]
 @
 A common ICC probit model can be fit using
 <<echo=TRUE>>=
 Common.ICC <- mixor(TConcen ~ Mz, data = concen, id = ID, 
-  weights = freq, link = "probit", NQ1 = 10)
+  weights = freq, link = "probit", nAGQ = 10)
 summary(Common.ICC)
 @
 
@@ -356,7 +354,7 @@ A varying ICC probit model can be fit using
 <<echo=TRUE>>=
 Varying.ICC <- mixor(TConcen ~ Mz + Dz, data = concen, id = ID, 
   weights = freq, which.random.slope = 1:2, exclude.fixed.effect = 2, 
-  link = "probit", NQ1 = 20, random.effect.mean = FALSE, 
+  link = "probit", nAGQ = 20, random.effect.mean = FALSE, 
   UNID = 1)
 summary(Varying.ICC)
 @

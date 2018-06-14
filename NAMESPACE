@@ -1,6 +1,6 @@
-useDynLib(mixor, mainloop)
-
+useDynLib(mixor, .registration = TRUE)
 importFrom("graphics", "hist", "par")
+importFrom("survival", "Surv")
 importFrom("stats", "coef", "contrasts", "is.empty.model","model.extract", "model.matrix", "model.response", "pnorm", "pchisq", "qqline", "qqnorm", "BIC", ".checkMFClasses", "delete.response", "model.frame", "na.fail", "printCoefmat", "terms")
 exportPattern(mixor, mixord, print.mixor, summary.mixor, coef.mixor, vcov.mixor, Contrasts, plot.mixor, logLik.mixor, deviance.mixor, AIC.mixor, BIC.mixor, predict.mixor)
 S3method(AIC, mixor)
