@@ -1,4 +1,4 @@
 BIC.mixor <-
 function(object, ...) {
-	object$SBC
+	object$SBCD
 }

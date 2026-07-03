@@ -5,7 +5,7 @@ function(object, digits=max(3, getOption("digits") - 2), signif.stars=TRUE, dig.
 cat("Deviance =        ", object$Deviance, "\n")
 cat("Log-likelihood = ", object$RLOGL,"\n")
 cat("RIDGEMAX =        ", object$RIDGEMAX,"\n")
-cat("AIC =            ", object$AIC, "\n")
-cat("SBC =            ", object$SBC, "\n\n")
+cat("AIC =            ", object$AICD, "\n")
+cat("SBC =            ", object$SBCD, "\n\n")
 printCoefmat(object$Model, digits=digits, signif.stars=signif.stars, dig.tst=dig.tst, cs.ind=1:2, tst.ind=3, Pvalues=TRUE, has.Pvalue=TRUE)
 }

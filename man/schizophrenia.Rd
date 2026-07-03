@@ -24,7 +24,7 @@ In the NIMH Schizophrenia Collaborative Study, patients were randomized to recei
 }
 
 \source{
-From \url{http://tigger.uic.edu/~hedeker/SCHIZX1.DAT.txt}
+From \url{https://voices.uchicago.edu/hedeker/files/2026/06/SCHIZX1.DAT_.txt}
 }
 \references{
 Hedeker D. and Gibbons R.D. (1996) A computer program for mixed-effects ordinal regression analysis. \emph{Computer Methods and Programs in Biomedicine} 49, 157-176.

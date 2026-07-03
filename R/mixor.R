@@ -22,7 +22,7 @@ function (formula, data, id, which.random.slope = NA, subset,
     else {
         IWT <- 1
     }
-    if (class(Y) == "Surv") {
+    if (inherits(Y, "Surv")) {
         CEN <- Y[, 2]
         Y <- Y[, 1]
         ICEN <- 1
@@ -49,7 +49,7 @@ function (formula, data, id, which.random.slope = NA, subset,
         stop("No predictor variables specified")
     }
     else {
-        W <- model.matrix(mt, mf, contrasts)
+        W <- model.matrix(mt, mf, contrasts.arg = NULL)
     }
     is.int <- !identical(grep("(Intercept)", dimnames(W)[[2]]), 
         integer(0))

@@ -194,5 +194,3 @@ summary(Varying.ICC)
 LRtest <- deviance(Common.ICC) - deviance(Varying.ICC)
 LRtest
 pchisq(LRtest, 1, lower.tail=FALSE)
-
-

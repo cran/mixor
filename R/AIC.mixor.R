@@ -1,4 +1,4 @@
 AIC.mixor <-
 function(object, ...) {
-  object$AIC
+  object$AICD
 }

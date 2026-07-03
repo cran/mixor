@@ -87,9 +87,9 @@
          SUBROUTINE STARTV2(MU1,SIGMA,GAMMA,R,MAXJ,NGAM,CATFQ,DENUM,WA, &
                       NFN,ICEN,KG,RADD,IDIAG,IVSEP)
             implicit none
-            real (kind=8),intent(in)::catfq(:),wa,denum,radd
-            real(kind=8),intent(out)::mu1,gamma(:),sigma(:)
-            integer(kind=4),intent(in)::r,maxj,ngam,nfn,icen,kg,idiag,ivsep
+            DOUBLE PRECISION,intent(in)::catfq(:),wa,denum,radd
+            DOUBLE PRECISION,intent(out)::mu1,gamma(:),sigma(:)
+            integer,intent(in)::r,maxj,ngam,nfn,icen,kg,idiag,ivsep
 
          END SUBROUTINE STARTV2
 
@@ -146,8 +146,8 @@
 
             IMPLICIT NONE
             INTEGER, INTENT(IN) :: N 
-            REAL(KIND=8), DIMENSION(N,N), INTENT(INOUT) :: A 
-            REAL(KIND=8), DIMENSION(N,N), INTENT(INOUT) :: B 
+            DOUBLE PRECISION, DIMENSION(N,N), INTENT(INOUT) :: A 
+            DOUBLE PRECISION, DIMENSION(N,N), INTENT(INOUT) :: B 
             INTEGER, INTENT(IN) :: MSA 
             INTEGER, INTENT(IN) :: MSB 
 
@@ -166,10 +166,10 @@
 
          SUBROUTINE CHSKY(A,B,N,NONPOS)
             implicit none
-            real(kind=8),intent(in)::a(:)
-            real(kind=8),intent(out)::b(:)
-            integer(kind=4),intent(in)::n
-            integer(kind=4),intent(out)::nonpos
+            DOUBLE PRECISION,intent(in)::a(:)
+            DOUBLE PRECISION,intent(out)::b(:)
+            integer,intent(in)::n
+            integer,intent(out)::nonpos
          END SUBROUTINE CHSKY
 
       END INTERFACE
@@ -185,9 +185,9 @@
 
          SUBROUTINE GEN (A,C,M,N,MS)                                       
              implicit none
-            REAL (KIND=8), INTENT(OUT), DIMENSION(:)     :: A
-            real (kind=8), intent(in) :: c
-            integer(kind=4), intent(in) :: m,n,ms
+            DOUBLE PRECISION, INTENT(OUT), DIMENSION(:)     :: A
+            DOUBLE PRECISION, intent(in) :: c
+            integer, intent(in) :: m,n,ms
 
          END SUBROUTINE GEN
 
@@ -198,22 +198,22 @@
 ! ----------------------------------------------------------------------------
 !@  MODULE INTERFACE_GRMCV
 
-   MODULE INTERFACE_GRMCV
+   MODULE INTERFACE_GRMCV1
 
       INTERFACE
 
-         SUBROUTINE GRMCV(A,B,X,C,N)                                       
+         SUBROUTINE GRMCV(B,X,C,N)                                       
             implicit none
-            real (kind=8), intent(inout), dimension(:) :: a,b
-            real (kind=8), intent(in), dimension(:) :: x
-            real(kind=8), intent(in) :: c
-            integer(kind=4), intent(in) :: n
+            DOUBLE PRECISION, intent(inout), dimension(:) :: b
+            DOUBLE PRECISION, intent(in), dimension(:) :: x
+            DOUBLE PRECISION, intent(in) :: c
+            integer, intent(in) :: n
 
          END SUBROUTINE GRMCV
 
       END INTERFACE
 
-   END MODULE INTERFACE_GRMCV
+   END MODULE INTERFACE_GRMCV1
 
 ! ----------------------------------------------------------------------------
 !@  MODULE INTERFACE_MPDSD
@@ -225,11 +225,20 @@
          SUBROUTINE MPDSD(A,B,C,N) 
 
            IMPLICIT NONE
-           REAL(KIND=8), DIMENSION(:), INTENT(IN) :: A 
-           REAL(KIND=8), DIMENSION(:), INTENT(INOUT) :: B,C 
+           DOUBLE PRECISION, DIMENSION(:), INTENT(IN) :: A, B 
+           DOUBLE PRECISION, DIMENSION(:), INTENT(OUT) :: C 
            INTEGER, INTENT(IN) :: N 
 
          END SUBROUTINE MPDSD
+
+         SUBROUTINE MPDSD1(A,C,N) 
+
+           IMPLICIT NONE
+           DOUBLE PRECISION, DIMENSION(:), INTENT(IN) :: A
+           DOUBLE PRECISION, DIMENSION(:), INTENT(INOUT) :: C 
+           INTEGER, INTENT(IN) :: N 
+
+         END SUBROUTINE MPDSD1
 
       END INTERFACE
 
@@ -244,9 +253,9 @@
 
          SUBROUTINE HRECUR(PN,DPN,PN1,X,NN)
             implicit none
-            real(kind=8),intent(in)::x
-            real(kind=8),intent(out)::pn,dpn,pn1
-            integer(kind=4),intent(in)::nn
+            DOUBLE PRECISION,intent(in)::x
+            DOUBLE PRECISION,intent(out)::pn,dpn,pn1
+            integer,intent(in)::nn
          END SUBROUTINE HRECUR
 
       END INTERFACE
@@ -264,10 +273,10 @@
 
             USE INTERFACE_HRECUR
             implicit none
-            real(kind=8),intent(in)::epsq
-            real(kind=8),intent(inout)::x
-            real(kind=8),intent(out)::dpn,pn1
-            integer(kind=4),intent(in)::nn
+            DOUBLE PRECISION,intent(in)::epsq
+            DOUBLE PRECISION,intent(inout)::x
+            DOUBLE PRECISION,intent(out)::dpn,pn1
+            integer,intent(in)::nn
 
          END SUBROUTINE HROOT
 
@@ -286,9 +295,9 @@
 
             USE INTERFACE_HROOT
             implicit none
-            real(kind=8),intent(in)::epsq
-            real(kind=8),intent(out)::x(:),a(:)
-            integer(kind=4),intent(in)::nn
+            DOUBLE PRECISION,intent(in)::epsq
+            DOUBLE PRECISION,intent(out)::x(:),a(:)
+            integer,intent(in)::nn
 
          END SUBROUTINE HERMIT
 
@@ -309,10 +318,10 @@
             IMPLICIT NONE
             INTEGER, INTENT(IN)                                    :: NQ1,NDIM,IUNIF
             INTEGER, INTENT(OUT)                                   :: NQ
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NQ1)           :: B1,WA1
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NQ1*NDIM*NDIM) :: B,WA2
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NQ1*NDIM)      :: A
-            REAL (KIND=8), INTENT(INOUT), OPTIONAL                 :: SCA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NQ1)           :: B1,WA1
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NQ1*NDIM*NDIM) :: B,WA2
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NQ1*NDIM)      :: A
+            DOUBLE PRECISION, INTENT(INOUT), OPTIONAL                 :: SCA
 
          END SUBROUTINE QUADP
 
@@ -329,9 +338,9 @@
 
          SUBROUTINE KMPY(A,B,C,P,Q,MS,R,S)  
             implicit none
-            integer(kind=4),intent(in)::p,q,ms,r,s
-            real(kind=8),intent(in)::a(p,q),b(r,s)
-            real(kind=8),intent(out)::c(:)
+            integer,intent(in)::p,q,ms,r,s
+            DOUBLE PRECISION,intent(in)::a(p,q),b(r,s)
+            DOUBLE PRECISION,intent(out)::c(:)
          END SUBROUTINE KMPY
 
       END INTERFACE
@@ -347,10 +356,17 @@
 
          SUBROUTINE MPYM(A,B,C,MA,NA,MSA,MSB,NB)                          
             implicit none
-            real(kind=8),intent(in)::a(:)
-            real(kind=8),intent(inout)::b(:),c(:)
-            integer(kind=4),intent(in)::ma,na,msa,msb,nb
+            DOUBLE PRECISION,intent(in)::a(:),b(:)
+            DOUBLE PRECISION,intent(out)::c(:)
+            integer,intent(in)::ma,na,msa,msb,nb
          END SUBROUTINE MPYM
+
+         SUBROUTINE MPYM1(A,C,MA,NA,MSA,MSB,NB)                          
+            implicit none
+            DOUBLE PRECISION,intent(in)::a(:)
+            DOUBLE PRECISION,intent(inout)::c(:)
+            integer,intent(in)::ma,na,msa,msb,nb
+         END SUBROUTINE MPYM1
 
       END INTERFACE
 
@@ -367,9 +383,9 @@
 
             USE INTERFACE_FP_EQUAL
             implicit none
-            integer(kind=4),intent(in)::n
-            real(kind=8),intent(in)::yvec(:)
-            integer(kind=4),intent(out)::nsame
+            integer,intent(in)::n
+            DOUBLE PRECISION,intent(in)::yvec(n)
+            integer,intent(out)::nsame
 
          END SUBROUTINE YSAME
 
@@ -385,9 +401,9 @@
 
          SUBROUTINE ADJR(A,B,C,MA,N,MB)
             implicit none
-            integer(kind=4),intent(in)::n,ma,mb
-            real(kind=8),intent(in)::a(ma,n),b(mb,n)
-            real(kind=8),intent(out)::c(:)
+            integer,intent(in)::n,ma,mb
+            DOUBLE PRECISION,intent(in)::a(ma,n),b(mb,n)
+            DOUBLE PRECISION,intent(out)::c(:)
          END SUBROUTINE ADJR
 
       END INTERFACE
@@ -403,9 +419,9 @@
 
          SUBROUTINE ADJC(A,B,C,M,NA,NB)
             implicit none
-            real(kind=8),intent(in)::a(:),b(:)
-            real(kind=8),intent(out)::c(:)
-            integer(kind=4),intent(in)::m,na,nb
+            DOUBLE PRECISION,intent(in)::a(:),b(:)
+            DOUBLE PRECISION,intent(out)::c(:)
+            integer,intent(in)::m,na,nb
          END SUBROUTINE ADJC
 
       END INTERFACE
@@ -419,13 +435,12 @@
 
       INTERFACE
 
-         SUBROUTINE INVS(A,N,C,W,IER,VERBOSE)  
+         SUBROUTINE INVS(A,N,C,W,IER)  
             implicit none
-            real(kind=8),intent(inout)::a(:)
-            real(kind=8),intent(out)::w(:),c
-            integer(kind=4),intent(in)::n
+            DOUBLE PRECISION,intent(inout)::a(:)
+            DOUBLE PRECISION,intent(out)::w(:),c
+            integer,intent(in)::n
             INTEGER, INTENT(inout), OPTIONAL :: IER
-            LOGICAL, INTENT(in), OPTIONAL :: VERBOSE
          END SUBROUTINE INVS
 
       END INTERFACE
@@ -440,9 +455,9 @@
 
          SUBROUTINE INVT(A,N,C)                                        
             implicit none
-            real(kind=8),intent(inout),dimension(:) :: a
-            real(kind=8),intent(out) :: c
-            integer(kind=4),intent(in) :: n
+            DOUBLE PRECISION,intent(inout),dimension(:) :: a
+            DOUBLE PRECISION,intent(out) :: c
+            integer,intent(in) :: n
 
          END SUBROUTINE INVT
 
@@ -458,9 +473,9 @@
 
          SUBROUTINE GRAMT(A,C,M,N)
             implicit none
-            integer(kind=4),intent(in)::m,n
-            REAL(kind=8),intent(in)::A(m,n)
-            real(kind=8),intent(out)::C(:)
+            integer,intent(in)::m,n
+            DOUBLE PRECISION,intent(in)::A(m,n)
+            DOUBLE PRECISION,intent(out)::C(:)
          END SUBROUTINE GRAMT
 
       END INTERFACE
@@ -476,9 +491,9 @@
 
         SUBROUTINE SCM(A,C,B,M,N,MS)     
             implicit none
-            real(kind=8), intent(in) :: a(:),c
-            real(kind=8), intent(out) :: b(:)
-            integer(kind=4), intent(in) :: m,n,ms
+            DOUBLE PRECISION, intent(in) :: a(:),c
+            DOUBLE PRECISION, intent(out) :: b(:)
+            integer, intent(in) :: m,n,ms
          END SUBROUTINE SCM
 
       END INTERFACE
@@ -492,31 +507,31 @@
 
       INTERFACE
 
-         SUBROUTINE STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
+         SUBROUTINE STARTVAL(N,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
                     MAXJ,NFN,ICEN,IDIAG,IADD,IVSEP,IWT,KG,ICODE, &
                     IDNI,ALLDAT,MU,ALPHA,TAU,SIGMA,GAM,WA,RADD,sum2)
 
             USE INTERFACE_STARTV2
-            USE INTERFACE_GRMCV
+            USE INTERFACE_GRMCV1
             USE INTERFACE_MPYM
             USE INTERFACE_INVS
             USE INTERFACE_FP_EQUAL
             IMPLICIT NONE
             ! Arguments:
-            INTEGER, INTENT(IN)                            :: N,NPAR,NTOT,NALL,NRP1
+            INTEGER, INTENT(IN)                            :: N,NTOT,NALL,NRP1
             INTEGER, INTENT(IN)                            :: NOMU,P,R,RR,KS,NGAM
             INTEGER, INTENT(INOUT)                         :: IER
             INTEGER, INTENT(IN)                            :: MAXJ,NFN,ICEN
             INTEGER, INTENT(IN)                            :: IDIAG,IADD,IVSEP,IWT,KG
             INTEGER, INTENT(IN), DIMENSION(2*N)            :: IDNI
-            REAL (KIND=8), INTENT(IN), DIMENSION(MAXJ)     :: ICODE
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(2*NALL + 1) :: ALLDAT
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: MU
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(P)     :: ALPHA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(KS)    :: TAU
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(RR)    :: SIGMA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NGAM)  :: GAM
-            REAL (KIND=8), INTENT(OUT)                     :: WA,RADD,sum2
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(MAXJ)     :: ICODE
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(2*NALL + 1) :: ALLDAT
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: MU
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(P)     :: ALPHA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(KS)    :: TAU
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(RR)    :: SIGMA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NGAM)  :: GAM
+            DOUBLE PRECISION, INTENT(OUT)                     :: WA,RADD,sum2
 
          END SUBROUTINE STARTVAL
 
@@ -539,11 +554,11 @@
             ! Arguments:
             INTEGER, INTENT(IN)                            :: N,R,IPRIOR,IRT,IRTT
             INTEGER, INTENT(IN)                            :: NQR,NQRR,NQ
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(IRT)   :: ITHETA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(IRTT)  :: ITHETAV
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: IWORKR
-            REAL (KIND=8), INTENT(IN), DIMENSION(NQR)      :: IAQ
-            REAL (KIND=8), INTENT(IN), DIMENSION(NQRR)     :: IBQ
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(IRT)   :: ITHETA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(IRTT)  :: ITHETAV
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: IWORKR
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(NQR)      :: IAQ
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(NQRR)     :: IBQ
 
          END SUBROUTINE Empirical_Prior
 
@@ -567,7 +582,7 @@
             USE INTERFACE_CHAMS
             USE INTERFACE_CHSKY
             USE INTERFACE_GEN
-            USE INTERFACE_GRMCV
+            USE INTERFACE_GRMCV1
             USE INTERFACE_QUADP
             USE INTERFACE_KMPY
             USE INTERFACE_MPYM
@@ -585,21 +600,21 @@
             INTEGER, INTENT(INOUT)                         :: IER,NPARR
             INTEGER, INTENT(IN)                            :: IPRIOR,IUNIF,MAXJ,NFN
             INTEGER, INTENT(IN)                            :: ICEN,IDIAG,IVSEP,IWT,KG,CHOLe
-            REAL (KIND=8), INTENT(IN), DIMENSION(2*NALL+1) :: ALLDAT
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: MU
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(P)     :: ALPHA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(KS)    :: TAU
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(RR)    :: SIGMA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NGAM)  :: GAM
-            REAL (KIND=8), INTENT(IN), DIMENSION(MAXJ)     :: ICODE
-            REAL (KIND=8), INTENT(IN)                      :: RADD,CONV
-            REAL (KIND=8), INTENT(OUT)                     :: RLOGL,AIC,SBC,DEV,WA,sum2
-            REAL (KIND=8), INTENT(OUT)                     :: AICD,SBCD
-            REAL (KIND=8), INTENT(OUT)                     :: RIDGEMAX
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR)  :: SE
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
-            real(kind=8), intent(inout), dimension(n,irt)    :: EBmean
-            real(kind=8), intent(inout), dimension(n,irt*(irt+1)/2)   :: EBvar
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(2*NALL+1) :: ALLDAT
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: MU
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(P)     :: ALPHA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(KS)    :: TAU
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(RR)    :: SIGMA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NGAM)  :: GAM
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(MAXJ)     :: ICODE
+            DOUBLE PRECISION, INTENT(IN)                      :: RADD,CONV
+            DOUBLE PRECISION, INTENT(OUT)                     :: RLOGL,AIC,SBC,DEV,WA,sum2
+            DOUBLE PRECISION, INTENT(OUT)                     :: AICD,SBCD
+            DOUBLE PRECISION, INTENT(OUT)                     :: RIDGEMAX
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR)  :: SE
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
+            DOUBLE PRECISION, intent(inout), dimension(n,irt)    :: EBmean
+            DOUBLE PRECISION, intent(inout), dimension(n,irt*(irt+1)/2)   :: EBvar
 
          END SUBROUTINE MIXORDEST
 
@@ -648,30 +663,30 @@
             INTEGER, INTENT(IN)                            :: NQ1,IUNIF,AQUAD
             INTEGER, INTENT(IN), DIMENSION(NTOT)           :: IDS
             INTEGER, INTENT(OUT)                           :: IT
-            INTEGER, INTENT(IN)                            :: ICEN,IDIAG,IPRIOR,IADD
+            INTEGER, INTENT(IN)                            :: IDIAG,IPRIOR,IADD
             INTEGER, INTENT(IN)                            :: IVSEP,IWT,KG
             INTEGER, INTENT(IN)                            :: MAXJ,NFN,CHOL
-            INTEGER, INTENT(INOUT)                         :: NOMU,P,R,RR,KS,NGAM,IRT
+            INTEGER, INTENT(INOUT)                         :: ICEN,NOMU,P,R,RR,KS,NGAM,IRT
             INTEGER, INTENT(INOUT)                         :: NPAR,NPARR
             INTEGER, INTENT(IN), DIMENSION(NTOT), OPTIONAL :: CEN ! note: changed as an integer
-            REAL (KIND=8), INTENT(IN), DIMENSION(NTOT)     :: Y
-            REAL (KIND=8), INTENT(IN), DIMENSION(NTOT,R)   :: X
-            REAL (KIND=8), INTENT(IN), DIMENSION(NTOT,P)   :: W
-            REAL (KIND=8), INTENT(IN), DIMENSION(NTOT)     :: WTs
-            REAL (KIND=8), INTENT(IN), DIMENSION(MAXJ)     :: ICODE
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: MU
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(P)     :: ALPHA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(KS)    :: TAU
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(RR)    :: SIGMA
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NGAM)  :: GAM
-            REAL (KIND=8), INTENT(OUT)                     :: RLOGL,AIC,SBC
-            REAL (KIND=8), INTENT(OUT)                     :: DEV,AICD,SBCD
-            REAL (KIND=8), INTENT(OUT)                     :: RIDGEMAX
-            REAL (KIND=8), INTENT(IN)                      :: CONV
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR)  :: SE
-            REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
-            real(kind=8), intent(inout), dimension(N,IRT)    :: EBmean
-            real(kind=8), intent(inout), dimension(N,IRT*(IRT+1)/2)   :: EBvar
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT)     :: Y
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT,R)   :: X
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT,P)   :: W
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT)     :: WTs
+            DOUBLE PRECISION, INTENT(IN), DIMENSION(MAXJ)     :: ICODE
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: MU
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(P)     :: ALPHA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(KS)    :: TAU
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(RR)    :: SIGMA
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NGAM)  :: GAM
+            DOUBLE PRECISION, INTENT(OUT)                     :: RLOGL,AIC,SBC
+            DOUBLE PRECISION, INTENT(OUT)                     :: DEV,AICD,SBCD
+            DOUBLE PRECISION, INTENT(OUT)                     :: RIDGEMAX
+            DOUBLE PRECISION, INTENT(IN)                      :: CONV
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR)  :: SE
+            DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
+            DOUBLE PRECISION, intent(out), dimension(N,IRT)    :: EBmean
+            DOUBLE PRECISION, intent(out), dimension(N,IRT*(IRT+1)/2)   :: EBvar
 
          END SUBROUTINE mainloop
 
@@ -795,33 +810,33 @@ SUBROUTINE mainloop(Y,X,W,WTs,NPAR,NTOT,N,IDS, &
    INTEGER, INTENT(INOUT)                         :: icen,NOMU,P,R,RR,KS,NGAM,IRT
    INTEGER, INTENT(INOUT)                         :: NPAR,NPARR
    INTEGER, INTENT(IN), DIMENSION(NTOT), OPTIONAL :: CEN
-   REAL (KIND=8), INTENT(IN), DIMENSION(NTOT)     :: Y
-   REAL (KIND=8), INTENT(IN), DIMENSION(NTOT,R)   :: X
-   REAL (KIND=8), INTENT(IN), DIMENSION(NTOT,P)   :: W
-   REAL (KIND=8), INTENT(IN), DIMENSION(NTOT)     :: WTs
-   REAL (KIND=8), INTENT(IN), DIMENSION(MAXJ)     :: ICODE
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: MU
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(P)     :: ALPHA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(KS)    :: TAU
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(RR)    :: SIGMA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NGAM)  :: GAM
-   REAL (KIND=8), INTENT(OUT)                     :: RLOGL, AIC, SBC
-   REAL (KIND=8), INTENT(OUT)                     :: DEV, AICD, SBCD
-   REAL (KIND=8), INTENT(OUT)                     :: RIDGEMAX
-   REAL (KIND=8), INTENT(IN)                      :: CONV
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR)  :: SE
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
-   real(kind=8), intent(out), dimension(n,irt)      :: EBmean
-    real(kind=8), intent(out), dimension(n,irt*(irt+1)/2)    :: EBvar
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT)     :: Y
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT,R)   :: X
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT,P)   :: W
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(NTOT)     :: WTs
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(MAXJ)     :: ICODE
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: MU
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(P)     :: ALPHA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(KS)    :: TAU
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(RR)    :: SIGMA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NGAM)  :: GAM
+   DOUBLE PRECISION, INTENT(OUT)                     :: RLOGL, AIC, SBC
+   DOUBLE PRECISION, INTENT(OUT)                     :: DEV, AICD, SBCD
+   DOUBLE PRECISION, INTENT(OUT)                     :: RIDGEMAX
+   DOUBLE PRECISION, INTENT(IN)                      :: CONV
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR)  :: SE
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
+   DOUBLE PRECISION, intent(out), dimension(n,irt)      :: EBmean
+    DOUBLE PRECISION, intent(out), dimension(n,irt*(irt+1)/2)    :: EBvar
 ! Local variables:
    !INTEGER                                        :: N
-   INTEGER                                        :: I,H,J,L!HR,
+   INTEGER                                        :: H,J,L!HR,
    INTEGER                                        :: NALL,NRP1
    INTEGER                                        :: ICT,IER,IICT,JJ,M
    INTEGER, ALLOCATABLE                           :: IDNI(:),NWT(:)
-   REAL (KIND=8)                                  :: RADD,WA,sum2
-   REAL (KIND=8), ALLOCATABLE                     :: ALLDAT(:),WT(:)
-!   real(kind=8), allocatable::isigmas(:,:), isigmavs(:,:)
+   DOUBLE PRECISION                                  :: RADD,WA,sum2
+   DOUBLE PRECISION, ALLOCATABLE                     :: ALLDAT(:),WT(:)
+!   DOUBLE PRECISION, allocatable::isigmas(:,:), isigmavs(:,:)
    ! ALLDAT = VECTOR ((MAXNI*(R+P+1)) * MAXN) ALL DATA          
    !          or equals (MAXNI*(R+P+2)) * MAXN) if iofs=1   
 
@@ -938,7 +953,7 @@ SUBROUTINE mainloop(Y,X,W,WTs,NPAR,NTOT,N,IDS, &
 
    ! ******* END putting Y,X,W back into ALLDAT
 
-   CALL STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
+   CALL STARTVAL(N,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
                  MAXJ,NFN,ICEN,IDIAG,IADD,IVSEP,IWT,KG,ICODE, &
                  IDNI,ALLDAT,MU,ALPHA,TAU,SIGMA,GAM,WA,RADD,sum2)
 
@@ -978,13 +993,14 @@ CONTAINS
 
    IMPLICIT NONE
    INTEGER :: I,J,K,IDTEMP,IDOLD,IC2,PASS,NSize
-   REAL (KIND = 8) :: WTTEMP,WTOLD
+   DOUBLE PRECISION :: WTTEMP,WTOLD
    LOGICAL FIRST
 
 
    NSize = size(IDS) ! NTOT
    !write(*,*) NSize
-
+    idold = 0
+    wtold = 0
    DO PASS = 1,2
 
       IF (PASS .EQ. 2) THEN
@@ -1062,30 +1078,30 @@ END SUBROUTINE mainloop
 !   starting values for the regression coefficients
 !                                                                       
 !*********************************************************************
-SUBROUTINE STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
+SUBROUTINE STARTVAL(N,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
                     MAXJ,NFN,ICEN,IDIAG,IADD,IVSEP,IWT,KG,ICODE, &
                     IDNI,ALLDAT,MU,ALPHA,TAU,SIGMA,GAM,WA,RADD,sum2)
 
    USE INTERFACE_STARTV2
-   USE INTERFACE_GRMCV
+   USE INTERFACE_GRMCV1
    USE INTERFACE_MPYM
    USE INTERFACE_INVS
    USE INTERFACE_FP_EQUAL
    IMPLICIT NONE
-   INTEGER, INTENT(IN)                            :: N,NPAR,NTOT,NALL,NRP1
+   INTEGER, INTENT(IN)                            :: N,NTOT,NALL,NRP1
    INTEGER, INTENT(IN)                            :: NOMU,P,R,RR,KS,NGAM
    INTEGER, INTENT(INOUT)                         :: IER
    INTEGER, INTENT(IN)                            :: MAXJ,NFN,ICEN
    INTEGER, INTENT(IN)                            :: IDIAG,IADD,IVSEP,IWT,KG
    INTEGER, INTENT(IN), DIMENSION(2*N)            :: IDNI
-   REAL (KIND=8), INTENT(IN), DIMENSION(MAXJ)     :: ICODE
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(2*NALL+1) :: ALLDAT
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: MU
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(P)     :: ALPHA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(KS)    :: TAU
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(RR)    :: SIGMA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NGAM)  :: GAM
-   REAL (KIND=8), INTENT(OUT)                     :: WA,RADD,sum2
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(MAXJ)     :: ICODE
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(2*NALL+1) :: ALLDAT
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: MU
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(P)     :: ALPHA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(KS)    :: TAU
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(RR)    :: SIGMA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NGAM)  :: GAM
+   DOUBLE PRECISION, INTENT(OUT)                     :: WA,RADD,sum2
    
    ! Local variables:
    INTEGER                                        :: IC,IC2,IC3,IC4
@@ -1094,19 +1110,20 @@ SUBROUTINE STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
    INTEGER                                        :: ICW!,KIND
    INTEGER                                        :: P1,P1P1
    INTEGER                                        :: ICCY
-   REAL (KIND=8)                                  :: DENUM,WSUM!,RNTOT
-   REAL (KIND=8)                                  :: UNO,CATADD,YDEV
-   REAL (KIND=8)                                  :: DET!TEMPSUM,
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: ICATFQ,IWORKCAT
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IWORKP1,IWP1P1
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IWRKP1
+   DOUBLE PRECISION                                  :: DENUM,WSUM!,RNTOT
+   DOUBLE PRECISION                                  :: UNO,CATADD,YDEV
+   DOUBLE PRECISION                                  :: DET!TEMPSUM,
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: ICATFQ,IWORKCAT
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IWORKP1,IWP1P1
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IWRKP1
    !CHARACTER*160                                  :: LABTEMP,TEMPFORM
    LOGICAL                                        :: KEEP
 
 
    ! parameters         
    UNO  = 1.0D0
-
+    KEEP = .FALSE.
+    ydev = 0
    ! NALL is the number of elements for the data read in from filedat 
    ! that ALLDAT() contains 
 
@@ -1294,7 +1311,7 @@ SUBROUTINE STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
                   IWORKP1(IR - 2) = ALLDAT(K) - ALLDAT(IC3)
                ENDIF
                IF (IR .EQ. NRP1) THEN
-                  CALL GRMCV(IWP1P1,IWP1P1,IWORKP1,UNO,P1)
+                  CALL GRMCV(IWP1P1,IWORKP1,UNO,P1)
                   DO L = 1,P1
                      IWRKP1(L) = IWRKP1(L) + (YDEV * IWORKP1(L))
                   END DO
@@ -1314,7 +1331,7 @@ SUBROUTINE STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
                   IWORKP1(IR - 2) = ALLDAT(K) - ALLDAT(IC3)
                ENDIF
                IF (IR .EQ. NRP1) THEN
-                  CALL GRMCV(IWP1P1,IWP1P1,IWORKP1,ALLDAT(ICW),P1)
+                  CALL GRMCV(IWP1P1,IWORKP1,ALLDAT(ICW),P1)
                   DO L = 1,P1
                      IWRKP1(L) = IWRKP1(L) + (YDEV * IWORKP1(L))
                   END DO
@@ -1477,7 +1494,7 @@ SUBROUTINE STARTVAL(N,NPAR,NTOT,NALL,NOMU,P,R,RR,KS,NGAM,NRP1,IER, &
       ALPHA(:) = 0
 
       IF (P1 .GT. 0) THEN
-        CALL INVS(IWP1P1,P1,DET,IWORKP1,IER,.FALSE.)
+        CALL INVS(IWP1P1,P1,DET,IWORKP1,IER)
         CALL MPYM(IWP1P1,IWRKP1,IWORKP1,P1,P1,1,0,1)
 
         WA = 0.0D0
@@ -1576,7 +1593,7 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    USE INTERFACE_CHAMS
    USE INTERFACE_CHSKY
    USE INTERFACE_GEN
-   USE INTERFACE_GRMCV
+   USE INTERFACE_GRMCV1
    USE INTERFACE_QUADP
    USE INTERFACE_KMPY
    USE INTERFACE_MPYM
@@ -1594,20 +1611,20 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    INTEGER, INTENT(INOUT)                         :: IER,NPARR
    INTEGER, INTENT(IN)                            :: IPRIOR,IUNIF,MAXJ,NFN
    INTEGER, INTENT(IN)                            :: ICEN,IDIAG,IVSEP,IWT,KG,CHOLe
-   REAL (KIND=8), INTENT(IN), DIMENSION(2*NALL+1) :: ALLDAT
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: MU
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(P)     :: ALPHA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(KS)    :: TAU
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(RR)    :: SIGMA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NGAM)  :: GAM
-   REAL (KIND=8), INTENT(IN), DIMENSION(MAXJ)     :: ICODE
-   REAL (KIND=8), INTENT(IN)                      :: RADD,CONV
-   REAL (KIND=8), INTENT(OUT)                     :: RLOGL,AIC,SBC,DEV,WA,sum2
-   REAL (KIND=8), INTENT(OUT)                     :: AICD,SBCD,RIDGEMAX
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR)  :: SE
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
-   real(kind=8), intent(inout), dimension(n,irt)    :: EBmean
-   real(kind=8), intent(inout), dimension(n,irt*(irt+1)/2)   :: EBvar
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(2*NALL+1) :: ALLDAT
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: MU
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(P)     :: ALPHA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(KS)    :: TAU
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(RR)    :: SIGMA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NGAM)  :: GAM
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(MAXJ)     :: ICODE
+   DOUBLE PRECISION, INTENT(IN)                      :: RADD,CONV
+   DOUBLE PRECISION, INTENT(OUT)                     :: RLOGL,AIC,SBC,DEV,WA,sum2
+   DOUBLE PRECISION, INTENT(OUT)                     :: AICD,SBCD,RIDGEMAX
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR)  :: SE
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NPAR*NPAR) :: IDER2
+   DOUBLE PRECISION, intent(inout), dimension(n,irt)    :: EBmean
+   DOUBLE PRECISION, intent(inout), dimension(n,irt*(irt+1)/2)   :: EBvar
 ! Local variables:
    INTEGER                                        :: TERMIN
    INTEGER                                        :: H,H2,IC,IC0,IC2,ICOUNT
@@ -1619,25 +1636,25 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    INTEGER                                        :: NQ,NQR,NQRR,NGAM1
    INTEGER                                        :: IRTT
    integer::pabove, pbelow, asCount, sCount, place, place0
-   REAL (KIND=8)                                  :: DZT,RNPAR,RIDGE,RLOGLP
-   REAL (KIND=8)                                  :: BIGCOR,CSTAT,DERIV,DERIV0
-   REAL (KIND=8)                                  :: DERIV1,DET,HPROB,PROB
-   REAL (KIND=8)                                  :: PROBP0,PROBP1,PSUM,QMULT
-   REAL (KIND=8)                                  :: RLOGDIFF,SCAL,SIGN
-   REAL (KIND=8)                                  :: STEP,SUMW,WTSUBI,XMU,XTB
-   REAL (KIND=8)                                  :: Z,Z0,Z1,WTAU
-   REAL (KIND=8)                                  :: PHIFN,phiy,sbcn
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IDER,IDER2S,ISIGTAU
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IWG
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IAQEMP,IBQ1,IAQ0,IBQ0,IAQ,IBQ
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IAQ1,IAQ2,IXI,IYI,IWI,IEV
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IDERP,IDERQ,ILIK
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: ICHWRK,ICOREC
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: IWORKR,IWRKR,IWORKR2
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: ITHETA,ITHETAV
-   REAL (KIND=8), ALLOCATABLE::sstar(:), sstar2(:), work(:), sstar2t(:), &
+   DOUBLE PRECISION                                  :: DZT,RNPAR,RIDGE,RLOGLP
+   DOUBLE PRECISION                                  :: BIGCOR,CSTAT,DERIV,DERIV0
+   DOUBLE PRECISION                                  :: DERIV1,DET,HPROB,PROB
+   DOUBLE PRECISION                                  :: PROBP0,PROBP1,PSUM,QMULT
+   DOUBLE PRECISION                                  :: RLOGDIFF,SCAL,SIGN
+   DOUBLE PRECISION                                  :: STEP,SUMW,WTSUBI,XMU,XTB
+   DOUBLE PRECISION                                  :: Z,Z0,Z1,WTAU
+   DOUBLE PRECISION                                  :: PHIFN,phiy,sbcn
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IDER,IDER2S,ISIGTAU
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IWG
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IAQEMP,IBQ1,IAQ0,IBQ0,IAQ,IBQ
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IAQ1,IAQ2,IXI,IYI,IWI,IEV
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IDERP,IDERQ,ILIK
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: ICHWRK,ICOREC
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: IWORKR,IWRKR,IWORKR2
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: ITHETA,ITHETAV
+   DOUBLE PRECISION, ALLOCATABLE::sstar(:), sstar2(:), work(:), sstar2t(:), &
       asstar2(:), asstar2t(:),chol(:),cholIder2(:)
-    real(kind=8)::sdev,phiratio
+    DOUBLE PRECISION::sdev,phiratio
    !CHARACTER (LEN=8), ALLOCATABLE                 :: TEMPLABEL(:)
    LOGICAL CATJ
 
@@ -1648,9 +1665,12 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    ALLOCATE(IDER2S(NPAR*NPAR))
    allocate(cholIder2(NPARR))
    allocate(chol(rr))
-
+    indc = 0
     chol = sigma
-
+    dzt = 0
+    prob   = 0
+    probp0 = 0.0d0
+    probp1 = 0
    ! IRT = dimension of theta
    RNPAR = DBLE(NPAR)
 
@@ -1980,9 +2000,9 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
                      IWORKR(H) = IBQ(H2)
                   END DO
                   IF (IDIAG .EQ. 0 .AND. IVSEP .EQ. 0) THEN
-                     CALL MPYM(CHOL,IWORKR,IWORKR,R,R,3,0,1)
+                     CALL MPYM1(CHOL,IWORKR,R,R,3,0,1)
                   ELSE
-                     CALL MPYM(CHOL,IWORKR,IWORKR,R,R,2,0,1)
+                     CALL MPYM1(CHOL,IWORKR,R,R,2,0,1)
                   ENDIF
                   DO h=1,r
                      ix  = k   + (h-1)    * nii
@@ -2283,7 +2303,7 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
    
          ! scal2 = (1.0d0 + hprob)*wtsubi
          ! CALL grmcv(cholIDER2,cholIDER2,IDERP,scal2,npar)
-         CALL grmcv(cholIDER2,cholIDER2,IDERP,wtsubi,npar)
+         CALL grmcv(cholIDER2,IDERP,wtsubi,npar)
    
          ! ***************************************************************************
          ! write out the BAYES estimates at final iteration (IFIN=2or3) ! ONLY IF IRES=1 
@@ -2312,7 +2332,7 @@ SUBROUTINE MIXORDEST(N,NPAR,NRP1,NALL,IDNI,NOMU,P,R,RR,KS,NGAM,IER, &
                   H2 = Q + (h-1)*NQ
                   IWORKR(H) = IBQ(H2) - ITHETA(H)
                END DO
-               CALL GRMCV(ITHETAV,ITHETAV,IWORKR,QMULT,IRT)
+               CALL GRMCV(ITHETAV,IWORKR,QMULT,IRT)
             END DO
    
             IH = 0
@@ -2751,19 +2771,19 @@ SUBROUTINE Empirical_Prior(N,R,IPRIOR,IRT,IRTT,NQ,NQR,NQRR,&
                              ITHETA,ITHETAV,IAQ,IBQ,IWORKR)
 
    USE INTERFACE_MPDSD
-   use interface_grmcv
+   use interface_grmcv1
    IMPLICIT NONE
    INTEGER, INTENT(IN)                            :: N,R,IPRIOR
    INTEGER, INTENT(IN)                            :: IRT,IRTT,NQR,NQRR,NQ
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(IRT)   :: ITHETA
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(IRTT)  :: ITHETAV
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(R)     :: IWORKR
-   REAL (KIND=8), INTENT(IN), DIMENSION(NQR)      :: IAQ
-   REAL (KIND=8), INTENT(IN), DIMENSION(NQRR)     :: IBQ
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(IRT)   :: ITHETA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(IRTT)  :: ITHETAV
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(R)     :: IWORKR
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(NQR)      :: IAQ
+   DOUBLE PRECISION, INTENT(IN), DIMENSION(NQRR)     :: IBQ
    ! Local variables:
    INTEGER                                        :: IH, H, H2, Q !HR,
-   REAL (KIND=8)                                  :: QMULT
-   REAL (KIND=8), ALLOCATABLE, DIMENSION(:)       :: ITHETAV2
+   DOUBLE PRECISION                                  :: QMULT
+   DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:)       :: ITHETAV2
 
    ALLOCATE(ITHETAV2(IRTT))
 
@@ -2797,7 +2817,7 @@ SUBROUTINE Empirical_Prior(N,R,IPRIOR,IRT,IRTT,NQ,NQR,NQRR,&
          END DO
       END DO
       
-      CALL GRMCV(ITHETAV2,ITHETAV2,ITHETA,DBLE(N),IRT)
+      CALL GRMCV(ITHETAV2,ITHETA,DBLE(N),IRT)
 
       DO Q=1,NQ
          QMULT = DBLE(N) * IAQ(Q)
@@ -2807,7 +2827,7 @@ SUBROUTINE Empirical_Prior(N,R,IPRIOR,IRT,IRTT,NQ,NQR,NQRR,&
          END DO
          !WRITE(2,6659) Q,IAQ(Q),(IWORKR(H2),H2=1,IRT)
          !6659 FORMAT(1x,I2,5X,F8.5,5X,8F9.5)
-         CALL GRMCV(ITHETAV,ITHETAV,IWORKR,QMULT,IRT)
+         CALL GRMCV(ITHETAV,IWORKR,QMULT,IRT)
       END DO
 
       IH = 0
@@ -2827,7 +2847,7 @@ SUBROUTINE Empirical_Prior(N,R,IPRIOR,IRT,IRTT,NQ,NQR,NQRR,&
       !667 FORMAT(/,1X,'Empirical Prior Variance-Covariance Matrix (in packed form)')
       !WRITE(2,3388)(ITHETAV(HR),HR=1,IRTT)
       IF (IRT .GT.1) THEN
-         CALL MPDSD(IWORKR,ITHETAV,ITHETAV,IRT)
+         CALL MPDSD1(IWORKR,ITHETAV,IRT)
          !WRITE(2,668)
          !668 FORMAT(/,1X,'Empirical Prior Correlation matrix (in packed form)')
          !WRITE(2,3388)(ITHETAV(HR),HR=1,IRTT)
@@ -2880,16 +2900,17 @@ END SUBROUTINE Empirical_Prior
 SUBROUTINE STARTV2(MU1,SIGMA,GAMMA,R,MAXJ,NGAM,CATFQ,DENUM,WA, &
                       NFN,ICEN,KG,RADD,IDIAG,IVSEP)
     implicit none
-    real (kind=8),intent(in)::catfq(:),wa,denum,radd
-    real(kind=8),intent(out)::mu1,gamma(:),sigma(:)
-    integer(kind=4),intent(in)::r,maxj,ngam,nfn,icen,kg,idiag,ivsep
+    DOUBLE PRECISION,intent(in)::catfq(:),wa,denum,radd
+    DOUBLE PRECISION,intent(out)::mu1,gamma(:),sigma(:)
+    integer,intent(in)::r,maxj,ngam,nfn,icen,kg,idiag,ivsep
     
-    real(kind=8)::pi,cumsum,cumprob,cumodds,rlncumod,tempparm
-    integer(kind=4)::j,ngam1,kgn,kgm,i,ir,i2
+    DOUBLE PRECISION::pi,cumsum,cumprob,cumodds,rlncumod,tempparm
+    integer::j,ngam1,kgn,kgm,i,ir,i2
 
    DATA PI/3.141592654D0/
-
+    tempparm = 0
    cumsum = 0.0D0
+   cumprob = 0
    DO j=1,maxj-1
       cumsum   = cumsum + CATFQ(J)
       cumprob  = cumsum / DENUM
@@ -3098,7 +3119,7 @@ SUBROUTINE CHAMS(A,B,N,MSA,MSB)
 
    IMPLICIT NONE
    INTEGER, INTENT(IN) :: N, MSA, MSB
-   REAL(KIND=8), DIMENSION(N,N), INTENT(INOUT) :: A,B
+   DOUBLE PRECISION, DIMENSION(N,N), INTENT(INOUT) :: A,B
                                 
    INTEGER :: MMS, K, J, I, L, JR, M, LL, IR
    
@@ -3270,13 +3291,13 @@ END SUBROUTINE CHAMS
 
 SUBROUTINE CHSKY(A,B,N,NONPOS)
     implicit none
-    real(kind=8),intent(in)::a(:)
-    real(kind=8),intent(out)::b(:)
-    integer(kind=4),intent(in)::n
-    integer(kind=4),intent(out)::nonpos
+    DOUBLE PRECISION,intent(in)::a(:)
+    DOUBLE PRECISION,intent(out)::b(:)
+    integer,intent(in)::n
+    integer,intent(out)::nonpos
 
-    real(kind=8)::x,y
-    integer(kind=4)::n1,kc,ifir,j,i,ii,jc,ic,k
+    DOUBLE PRECISION::x,y
+    integer::n1,kc,ifir,j,i,ii,jc,ic,k
    
    IF(A(1).LT.1.D-30) THEN
       NONPOS=0                                                          
@@ -3362,12 +3383,12 @@ END SUBROUTINE CHSKY
 
 SUBROUTINE GEN (A,C,M,N,MS)
     implicit none
-    integer (kind=4), intent(in) :: m,n,ms
-    REAL (KIND=8), INTENT(OUT) :: a(:)
-    real(kind=8), intent(in) :: c
-    integer(kind=4):: L
+    integer, intent(in) :: m,n,ms
+    DOUBLE PRECISION, INTENT(OUT) :: a(:)
+    DOUBLE PRECISION, intent(in) :: c
+    integer:: L
             
-  
+  L = 1
    SELECT CASE (MS)
     CASE (0)
           L=M*N                                                             
@@ -3402,13 +3423,15 @@ END SUBROUTINE GEN
 !                                                                       
 !*********************************************************************
 
-SUBROUTINE GRMCV(A,B,X,C,N)                                       
+SUBROUTINE GRMCV(B,X,C,N)                                       
    implicit none
-   real (kind=8), intent(out) :: b(:)
-   real (kind=8), intent(in) :: a(:),x(:),c
-   integer(kind=4), intent(in) :: n
+   DOUBLE PRECISION, intent(inout) :: b(:)
+   DOUBLE PRECISION, intent(in) :: x(:),c
+   integer, intent(in) :: n
+   DOUBLE PRECISION :: a(n*n)
+   integer :: ic,i,j
    
-   integer(kind=4) :: ic,i,j
+   a = b
    IC=0                                                              
    DO I=1,N                                                      
       DO J=1,I                                                      
@@ -3445,12 +3468,12 @@ END SUBROUTINE GRMCV
 
 SUBROUTINE GRMMT(A,B,C,M,N,MSB,W)    
     implicit none
-    integer(kind=4), intent(in) :: m,n,msb
-    real(kind=8), intent(in) :: a(m,n),b(:)
-    real(kind=8), intent(out) :: c(:),w(:)
+    integer, intent(in) :: m,n,msb
+    DOUBLE PRECISION, intent(in) :: a(m,n),b(:)
+    DOUBLE PRECISION, intent(out) :: c(:),w(:)
     
-    real(kind=8) :: x
-    integer(kind=4) :: k,i,ic,j,kc,kk,l
+    DOUBLE PRECISION :: x
+    integer :: k,i,ic,j,kc,kk,l
 
    IF (MSB .GT. 1) THEN
    
@@ -3532,8 +3555,8 @@ END SUBROUTINE GRMMT
 SUBROUTINE ADDM(A,B,C,M,N,MS)   
 
    IMPLICIT NONE
-   REAL(KIND=8), INTENT(IN) :: A(:), B(:)
-   REAL(KIND=8), INTENT(OUT) :: C(:)
+   DOUBLE PRECISION, INTENT(IN) :: A(:), B(:)
+   DOUBLE PRECISION, INTENT(OUT) :: C(:)
    INTEGER, INTENT(IN) :: M,N,MS
    INTEGER :: I, K
                                         
@@ -3574,11 +3597,11 @@ END SUBROUTINE ADDM
 
 SUBROUTINE SUBM(A,B,C,M,N,MS)                                     
     implicit none
-    real(kind=8), intent(in) :: a(:),b(:)
-    real(kind=8), intent(out) :: c(:)
-    integer(kind=4), intent(in) :: m,n,ms
+    DOUBLE PRECISION, intent(in) :: a(:),b(:)
+    DOUBLE PRECISION, intent(out) :: c(:)
+    integer, intent(in) :: m,n,ms
     
-    integer(kind=4) :: k,i
+    integer :: k,i
    
    SELECT CASE (MS)
    CASE (0)         ! rectangular
@@ -3618,11 +3641,11 @@ END SUBROUTINE SUBM
 
 SUBROUTINE SCM(A,C,B,M,N,MS)     
     implicit none
-    real(kind=8), intent(in) :: a(:),c
-    real(kind=8), intent(out) :: b(:)
-    integer(kind=4), intent(in) :: m,n,ms
+    DOUBLE PRECISION, intent(in) :: a(:),c
+    DOUBLE PRECISION, intent(out) :: b(:)
+    integer, intent(in) :: m,n,ms
     
-    integer(kind=4) :: k,i
+    integer :: k,i
    
    SELECT CASE (MS)
    CASE (0)         ! rectangular
@@ -3659,8 +3682,8 @@ END SUBROUTINE SCM
 
 SUBROUTINE MPDSD(A,B,C,N)
    IMPLICIT NONE
-   REAL(KIND=8), INTENT(IN) :: A(:), B(:)
-   REAL(KIND=8), INTENT(OUT) :: C(:)
+   DOUBLE PRECISION, INTENT(IN) :: A(:), B(:)
+   DOUBLE PRECISION, INTENT(OUT) :: C(:)
    INTEGER, INTENT(IN) :: N
    INTEGER :: IC, I, J
                                 
@@ -3672,6 +3695,26 @@ SUBROUTINE MPDSD(A,B,C,N)
       END DO
    END DO
 END SUBROUTINE  MPDSD
+
+
+SUBROUTINE MPDSD1(A,C,N)
+   IMPLICIT NONE
+   DOUBLE PRECISION, INTENT(IN) :: A(:)
+   DOUBLE PRECISION, INTENT(INOUT) :: C(:)
+   INTEGER, INTENT(IN) :: N
+   DOUBLE PRECISION :: B(n*n)
+   INTEGER :: IC, I, J
+                                
+    b = c
+   IC=0                                                              
+   DO I=1,N                                                      
+      DO J=1,I                                                      
+         IC=IC+1                                                           
+         C(IC)=B(IC)*A(I)*A(J)                                             
+      END DO
+   END DO
+END SUBROUTINE  MPDSD1
+
 
 !*********************************************************************
 !                  **********************                         
@@ -3698,16 +3741,20 @@ END SUBROUTINE  MPDSD
 
 SUBROUTINE MPYTR(A,B,C,MA,NA,MSB,NB)
     implicit none
-    real(kind=8),intent(in) :: a(:),b(:)
-    real(kind=8),intent(out) :: c(:)
-    integer(kind=4),intent(in) :: ma,na,msb,nb
+    DOUBLE PRECISION,intent(in) :: a(:),b(:)
+    DOUBLE PRECISION,intent(out) :: c(:)
+    integer,intent(in) :: ma,na,msb,nb
     
-    real(kind=8) :: x
-    integer(kind=4) :: k,icb,iccb,j,inb,incb,llb,lhb,jnb,i,ina,m
+    DOUBLE PRECISION :: x
+    integer :: k,icb,iccb,j,inb,incb,llb,lhb,jnb,i,ina,m
 
    K=0                                                               
    ICB=0                                                             
    ICCB=0                                                            
+   lhb = 1
+   llb = 1
+   inb = 1
+   incb = 1
    DO J=1,NB                                                     
    
       SELECT CASE (MSB)
@@ -3811,13 +3858,13 @@ END SUBROUTINE  MPYTR
 
 SUBROUTINE GRAMM(A,B,C,M,N,MSB,W)   
     implicit none
-    integer(kind=4),intent(in) :: m,n,msb
-    real(kind=8),intent(in) :: a(m,n),b(:)
-    real(kind=8),intent(out),dimension(:) :: c
-    real(kind=8),intent(inout),dimension(:) :: w
+    integer,intent(in) :: m,n,msb
+    DOUBLE PRECISION,intent(in) :: a(m,n),b(:)
+    DOUBLE PRECISION,intent(out),dimension(:) :: c
+    DOUBLE PRECISION,intent(inout),dimension(:) :: w
     
-    real(kind=8) :: x
-    integer(kind=4) :: kc,i,kk,ic,l,k,j
+    DOUBLE PRECISION :: x
+    integer :: kc,i,kk,ic,l,k,j
    
    IF (MSB .EQ. 0) THEN
       !'ERROR MESSAGE FROM SUBROUTINE GRAMM: METRIC IS GENERAL RECTANGULAR'
@@ -3879,12 +3926,12 @@ END SUBROUTINE GRAMM
 
 SUBROUTINE HRECUR(PN,DPN,PN1,X,NN)
    implicit none
-   real(kind=8),intent(in)::x
-   real(kind=8),intent(out)::pn,dpn,pn1
-   integer(kind=4),intent(in)::nn
+   DOUBLE PRECISION,intent(in)::x
+   DOUBLE PRECISION,intent(out)::pn,dpn,pn1
+   integer,intent(in)::nn
    
-   integer(kind=4)::j
-   real(kind=8)::p,dp,p1,dp1,fj,fj2,q,dq
+   integer::j
+   DOUBLE PRECISION::p,dp,p1,dp1,fj,fj2,q,dq
 
    
    P1=1.
@@ -3918,12 +3965,12 @@ END SUBROUTINE HRECUR
 SUBROUTINE HERMIT(X,A,NN,EPSQ)
    USE INTERFACE_HROOT
    implicit none
-   real(kind=8),intent(in)::epsq
-   real(kind=8),intent(out)::x(:),a(:)
-   integer(kind=4),intent(in)::nn
+   DOUBLE PRECISION,intent(in)::epsq
+   DOUBLE PRECISION,intent(out)::x(:),a(:)
+   integer,intent(in)::nn
    
-   real(kind=8)::pi,fn,cc,s,gammas,xt,dpn,pn1
-   integer(kind=4)::n1,n2,i,ni
+   DOUBLE PRECISION::pi,fn,cc,s,gammas,xt,dpn,pn1
+   integer::n1,n2,i,ni
    
    DATA PI/3.141592654D0/
    
@@ -3971,13 +4018,13 @@ END SUBROUTINE HERMIT
 SUBROUTINE HROOT(X,NN,DPN,PN1,EPSQ)
    USE INTERFACE_HRECUR
    implicit none
-   real(kind=8),intent(in)::epsq
-   real(kind=8),intent(inout)::x
-   real(kind=8),intent(out)::dpn,pn1
-   integer(kind=4),intent(in)::nn
+   DOUBLE PRECISION,intent(in)::epsq
+   DOUBLE PRECISION,intent(inout)::x
+   DOUBLE PRECISION,intent(out)::dpn,pn1
+   integer,intent(in)::nn
    
-   integer(kind=4)::iter
-   real(kind=8)::d,p,dp
+   integer::iter
+   DOUBLE PRECISION::d,p,dp
    
    DO ITER=1,10
       CALL HRECUR(P,DP,PN1,X,NN)
@@ -4016,9 +4063,9 @@ END SUBROUTINE HROOT
 
 SUBROUTINE KMPY(A,B,C,P,Q,MS,R,S)                                 
     implicit none
-    integer(kind=4),intent(in)::p,q,ms,r,s
-    real(kind=8),intent(in)::a(p,q),b(r,s)
-    real(kind=8),intent(out)::c(:)
+    integer,intent(in)::p,q,ms,r,s
+    DOUBLE PRECISION,intent(in)::a(p,q),b(r,s)
+    DOUBLE PRECISION,intent(out)::c(:)
     
    INTEGER EA,EB,ic,ii,i,j,jj,k,kk,l,ll,neb,kr,kea,kjj,nc
    
@@ -4137,12 +4184,12 @@ END SUBROUTINE KMPY
 
 SUBROUTINE MPYM (A,B,C,MA,NA,MSA,MSB,NB)      
     implicit none
-    real(kind=8),intent(in)::a(:),b(:)
-    real(kind=8),intent(out)::c(:)
-    integer(kind=4),intent(in)::ma,na,msa,msb,nb
+    DOUBLE PRECISION,intent(in)::a(:),b(:)
+    DOUBLE PRECISION,intent(out)::c(:)
+    integer,intent(in)::ma,na,msa,msb,nb
     
-    real(kind=8)::x
-    integer(kind=4)::ica,icb,icca,iccb,loop,ii,jj,k,k1,k2,k3,j,m,i,lla,llb,lha,lhb,ina,inca,incb,inb,jnb,jna
+    DOUBLE PRECISION::x
+    integer::ica,icb,icca,iccb,loop,ii,jj,k,k1,k2,k3,j,m,i,lla,llb,lha,lhb,ina,inca,incb,inb,jnb,jna
    
    ICA=0                                                             
    ICB=0                                                             
@@ -4370,6 +4417,243 @@ SUBROUTINE MPYM (A,B,C,MA,NA,MSA,MSB,NB)
    
 END SUBROUTINE MPYM
 
+
+SUBROUTINE MPYM1 (A,C,MA,NA,MSA,MSB,NB)      
+    implicit none
+    DOUBLE PRECISION,intent(in)::a(:)
+    DOUBLE PRECISION,intent(inout)::c(:)
+    integer,intent(in)::ma,na,msa,msb,nb
+    
+    DOUBLE PRECISION::x, b(ma*na)
+    integer::ica,icb,icca,iccb,loop,ii,jj,k,k1,k2,k3,j,m,i,lla,llb,lha,lhb,ina,inca,incb,inb,jnb,jna
+   
+   b = c
+   ICA=0                                                             
+   ICB=0                                                             
+   ICCA=0                                                            
+   ICCB=0                                                            
+   LOOP=1                                                            
+   II=0                                                              
+   JJ=0
+                                            
+   ! Abort if either array is zero-sized
+   IF(MA .EQ. 0 .OR. NA .EQ. 0 .OR. NB .EQ. 0) RETURN
+   
+   IF((MSA .GE. 3)  .AND. (MSB .EQ. 0)) LOOP=2 
+   
+   IF (LOOP .EQ. 1) THEN
+      CALL SYNCB()   !   DEFINITION OF PARAMETERS FOR MATRIX B
+      CALL SYNCA()   !   DEFINITION OF PARAMETERS FOR MATRIX A
+   ELSE
+      CALL SYNCA()   !   DEFINITION OF PARAMETERS FOR MATRIX A
+      CALL SYNCB()   !   DEFINITION OF PARAMETERS FOR MATRIX B
+   ENDIF
+   
+   DO
+      !     SYNCHRONIZATION OF PARAMETERS  
+      K=I+(J-1)*MA  ! linear Index in destination array
+      X=0.0D0                                                           
+  
+      IF(.NOT.(( LLA .LT. LLB) .AND. (LHA .LT. LLB)) &
+       .AND. .NOT.((LLA .GT. LLB) .AND. (LHB .LT. LLA))) THEN
+     
+         IF (LLA .EQ. LLB) THEN
+            K1=LLA  
+         ELSEIF (LLA .LT. LLB) THEN
+            K1=LLB 
+            K3=K1-1 
+            DO M=LLA,K3                                                    
+               IF((MSA .EQ. 1) .AND. (M .EQ. I)) THEN
+                  INCA=I 
+                  ICCA=1
+               ENDIF 
+               INA=INA+INCA+ICA  
+               ICA=ICA+ICCA     
+            END DO
+            
+         ELSE ! lla .GT. llb
+            K1=LLA 
+            K3=K1-1  
+            DO M=LLB,K3                                                    
+               IF((MSB .EQ. 1) .AND. (M .EQ. J)) THEN
+                  INCB=J  
+                  ICCB=1 
+               ENDIF
+               INB=INB+INCB+ICB
+               ICB=ICB+ICCB   
+            END DO
+         ENDIF
+      
+         IF(LHA .LT. LHB) THEN
+            K2=LHA  
+         ELSE
+            K2=LHB 
+         ENDIF
+         ! 
+         ! VECTOR MULTIPLICATION AND RESETTING OF PARAMETERS 
+         !
+         DO M=K1,K2                                                     
+            X=X+A(INA)*B(INB) 
+            IF((MSA .EQ. 1) .AND. (M .EQ. I)) THEN
+               INCA=I
+               ICCA=1 
+            ENDIF
+            IF((MSB .EQ. 1) .AND. (M .EQ. J)) THEN
+               INCB=J
+               ICCB=1
+            ENDIF
+            INA=INA+INCA+ICA    
+            ICA=ICA+ICCA       
+            INB=INB+INCB+ICB  
+            ICB=ICB+ICCB     
+         END DO
+         
+         IF(MSB .EQ. 1) THEN
+            INCB=1          
+            ICCB=0         
+         ENDIF
+         INB=JNB                                                           
+         ICB=0                                                             
+         IF(MSA .EQ. 1) THEN
+            INCA=1        
+            ICCA=0       
+         ENDIF
+         INA=JNA                                                           
+         ICA=0                                                             
+      ENDIF
+  
+      C(K)=X  ! store the accumulated row/column product 
+              ! in the result array
+      
+      IF (LOOP .EQ. 1) THEN
+         IF(II .LT. MA) THEN
+            CALL SYNCA()
+         ELSEIF (II .EQ. MA) THEN
+            IF(JJ .LT. NB) THEN
+               II=0   
+               CALL SYNCB()
+               CALL SYNCA()
+            ELSE
+               EXIT
+            ENDIF
+         ELSE
+            EXIT
+         ENDIF
+      ELSE             ! LOOP .EQ. 2
+         IF(JJ .LT. NB) THEN
+            CALL SYNCB()
+         ELSEIF (JJ .EQ. NB) THEN
+            IF(II .LT. MA) THEN
+               JJ=0
+               CALL SYNCA()
+               CALL SYNCB()
+            ELSE
+               EXIT
+            ENDIF
+         ELSE
+            EXIT
+         ENDIF
+      ENDIF
+   ENDDO
+   
+   RETURN                                                            
+
+   CONTAINS
+   
+   SUBROUTINE SYNCA
+      II=II+1                                                           
+      IF ((MSA .EQ. 3) .AND. (MSB .EQ. 0)) THEN
+         ! Storage mode of B is 0 and A is 3.  Note that this
+         ! DOES NOT MATCH the equivalent test for B in SYNCB, where
+         ! A is 0 and B is 4  TG 1/2/01
+         I=MA-II+1                                                         
+      ELSE
+         I=II                                                              
+      ENDIF
+      
+      SELECT CASE (MSA)
+      CASE (0)
+         INA=I                                                             
+         INCA=MA                                                           
+         LLA=1                                                             
+         LHA=NA                                                            
+      
+      CASE (1,3)
+         INA=I*(I-1)/2+1                                                   
+         INCA=1                                                            
+         LLA=1                                                             
+         IF(MSA .NE. 1) THEN
+            LHA=I                                                             
+         ELSE
+            LHA=NA                                                            
+            ICCA=0                                                            
+            ICA=0                                                             
+         ENDIF
+      
+      CASE (2)
+         INA=I                                                             
+         INCA=0                                                            
+         LLA=I                                                             
+         LHA=I                                                             
+      
+      CASE(4)
+         INA=I*(I+1)/2                                                     
+         INCA=I                                                            
+         ICCA=1                                                            
+         ICA=0                                                             
+         LLA=I                                                             
+         LHA=NA                                                            
+      
+      END SELECT
+      
+      JNA=INA                                                           
+   END SUBROUTINE SYNCA
+   
+   SUBROUTINE SYNCB
+      JJ=JJ+1                                                           
+      IF ((MSA .EQ. 0) .AND. (MSB .EQ. 4)) THEN
+         ! Storage mode of A is 0 and B is 4
+         J=NB-JJ+1                                                         
+      ELSE
+         J=JJ                                                              
+      ENDIF
+      
+      SELECT CASE (MSB)
+      CASE (0)
+         INB=(J-1)*NA+1                                                    
+         INCB=1                                                            
+         LLB=1                                                             
+         LHB=NA                                                            
+      
+      CASE (2)
+         INB=J                                                             
+         INCB=0                                                            
+         LLB=J                                                             
+         LHB=J                                                             
+      
+      CASE (3)
+         INB=J*(J+1)/2                                                     
+         INCB=J                                                            
+         ICCB=1                                                            
+         LLB=J                                                             
+         LHB=NA                                                            
+      
+      CASE(1,4)
+         INB=J*(J-1)/2+1                                                   
+         INCB=1                                                            
+         LLB=1                                                             
+         IF(MSB .NE. 1) THEN
+            LHB=J                                                             
+         ELSE
+            LHB=NA                                                            
+         ENDIF
+         
+      END SELECT
+      JNB=INB                                                           
+   END SUBROUTINE SYNCB
+   
+END SUBROUTINE MPYM1
+
 !*********************************************************************
 !                  **********************                         
 !                  *  SUBROUTINE RELOC  *                         
@@ -4389,11 +4673,11 @@ END SUBROUTINE MPYM
 
 SUBROUTINE RELOC (A,B,M,N,MS)
     implicit none
-    real(kind=8),intent(in)::a(:)
-    real(kind=8),intent(out)::b(:)
-    integer(kind=4),intent(in)::m,n,ms
+    DOUBLE PRECISION,intent(in)::a(:)
+    DOUBLE PRECISION,intent(out)::b(:)
+    integer,intent(in)::m,n,ms
     
-    integer(kind=4)::l,j
+    integer::l,j
 
    SELECT CASE (MS)
    CASE (0)       ! square matrix
@@ -4426,12 +4710,12 @@ END SUBROUTINE  RELOC
 SUBROUTINE YSAME(YVEC,N,NSAME)
    USE INTERFACE_FP_EQUAL
    implicit none
-   integer(kind=4),intent(in)::n
-   real(kind=8),intent(in)::yvec(n)
-   integer(kind=4),intent(out)::nsame
+   integer,intent(in)::n
+   DOUBLE PRECISION,intent(in)::yvec(n)
+   integer,intent(out)::nsame
    
-   real(kind=8)::yold
-   integer(kind=4)::nsum,i
+   DOUBLE PRECISION::yold
+   integer::nsum,i
 
    IF (N .EQ. 1) THEN 
        NSAME = 1        
@@ -4471,11 +4755,11 @@ END SUBROUTINE YSAME
 
 SUBROUTINE GEND(A,C,N,MS)
     implicit none
-    real(kind=8),intent(out)::a(:)
-    real(kind=8),intent(in)::c
-    integer(kind=4),intent(in)::n,ms
+    DOUBLE PRECISION,intent(out)::a(:)
+    DOUBLE PRECISION,intent(in)::c
+    integer,intent(in)::n,ms
     
-    integer(kind=4)::l,j,k
+    integer::l,j,k
    
    SELECT CASE(MS)
    CASE (0)        ! rectangular
@@ -4531,11 +4815,11 @@ END SUBROUTINE GEND
 
 SUBROUTINE ADJR(A,B,C,MA,N,MB)
     implicit none
-    integer(kind=4),intent(in)::n,ma,mb
-    real(kind=8),intent(in)::a(ma,n),b(mb,n)
-    real(kind=8),intent(out)::c(:)
+    integer,intent(in)::n,ma,mb
+    DOUBLE PRECISION,intent(in)::a(ma,n),b(mb,n)
+    DOUBLE PRECISION,intent(out)::c(:)
 
-    integer(kind=4)::j,jj,lk,ii,i,ll,l,jz,mab
+    integer::j,jj,lk,ii,i,ll,l,mab
    
    MAB = MA + MB                                                 
    LL = N + 1                                                   
@@ -4586,11 +4870,11 @@ END SUBROUTINE ADJR
 
 SUBROUTINE ADJC(A,B,C,M,NA,NB)
     implicit none
-    real(kind=8),intent(in)::a(:),b(:)
-    real(kind=8),intent(out)::c(:)
-    integer(kind=4),intent(in)::m,na,nb
+    DOUBLE PRECISION,intent(in)::a(:),b(:)
+    DOUBLE PRECISION,intent(out)::c(:)
+    integer,intent(in)::m,na,nb
     
-    integer(kind=4)::k,kk,l,jz
+    integer::k,kk,l,jz
    
    K = M*NA                                        
    KK = M*NB                                      
@@ -4625,16 +4909,15 @@ END SUBROUTINE ADJC
 !                                                                       
 !*********************************************************************
 
-SUBROUTINE INVS(A,N,C,W,IER,VERBOSE)
+SUBROUTINE INVS(A,N,C,W,IER)
     implicit none
-    real(kind=8),intent(inout)::a(:)
-    real(kind=8),intent(out)::w(:),c
-    integer(kind=4),intent(in)::n
+    DOUBLE PRECISION,intent(inout)::a(:)
+    DOUBLE PRECISION,intent(out)::w(:),c
+    integer,intent(in)::n
    INTEGER, INTENT(inout), OPTIONAL :: IER
-   LOGICAL, INTENT(in), OPTIONAL :: VERBOSE
 
-   real(kind=8)::U,X,Y,Z,D
-   integer(kind=4)::diagmk,diag,diag2,rowno,rowcol,colno,k,km1,i,j
+   DOUBLE PRECISION::U,X,Y,Z,D
+   integer::diagmk,diag,diag2,rowno,rowcol,colno,k,km1,i,j
 
    IF (PRESENT(IER)) THEN
       IER = 0
@@ -4749,12 +5032,12 @@ END SUBROUTINE INVS
 
 SUBROUTINE INVT(A,N,C)
     implicit none
-    real(kind=8),intent(inout) :: a(:)
-    real(kind=8),intent(out) :: c
-    integer(kind=4),intent(in) :: n
+    DOUBLE PRECISION,intent(inout) :: a(:)
+    DOUBLE PRECISION,intent(out) :: c
+    integer,intent(in) :: n
     
-    real(kind=8) :: d,x,y,z,u
-    integer(kind=4) :: DIAG,ROWNO,COLNO,ROWCOL,i,k,j                           
+    DOUBLE PRECISION :: d,x,y,z,u
+    integer :: DIAG,ROWNO,COLNO,ROWCOL,i,k,j                           
    
    D=1.0D0                                                   
    DIAG=0                                                   
@@ -4811,12 +5094,12 @@ END SUBROUTINE INVT
 
 SUBROUTINE GRAMT(A,C,M,N)
     implicit none
-    integer(kind=4),intent(in)::m,n
-    REAL(kind=8),intent(in)::A(m,n)
-    real(kind=8),intent(out)::C(:)
+    integer,intent(in)::m,n
+    DOUBLE PRECISION,intent(in)::A(m,n)
+    DOUBLE PRECISION,intent(out)::C(:)
 
-    real(kind=8)::x
-    integer(kind=4)::ic,i,j,k
+    DOUBLE PRECISION::x
+    integer::ic,i,j,k
    
    IC=0
    
@@ -4864,12 +5147,12 @@ SUBROUTINE QUADP(B,B1,A,NQ1,NQ,NDIM,IUNIF,WA1,WA2,SCA)
    IMPLICIT NONE
    INTEGER, INTENT(IN)                                    :: NQ1,NDIM,IUNIF
    INTEGER, INTENT(OUT)                                   :: NQ
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NQ1)           :: B1,WA1
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NQ1**NDIM*NDIM) :: B,WA2
-   REAL (KIND=8), INTENT(INOUT), DIMENSION(NQ1**NDIM)      :: A
-   REAL (KIND=8), INTENT(INOUT), OPTIONAL                 :: SCA
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NQ1)           :: B1,WA1
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NQ1**NDIM*NDIM) :: B,WA2
+   DOUBLE PRECISION, INTENT(INOUT), DIMENSION(NQ1**NDIM)      :: A
+   DOUBLE PRECISION, INTENT(INOUT), OPTIONAL                 :: SCA
    INTEGER :: I,J,J1,J2,J3,K,M2,NDIV
-   REAL (KIND=8) :: EPSQ,SUMW,AQT
+   DOUBLE PRECISION :: EPSQ,SUMW,AQT
 
    ! number of quadrature points, quadrature nodes & weights  
 
@@ -4944,9 +5227,9 @@ END SUBROUTINE QUADP
 !     Implement the Gamma function, used by HERMIT
 !     when calculating Gauss-Hermite quadrature. 
 !*********************************************************************
-real(kind=8) function gam(Y)
+DOUBLE PRECISION function gam(Y)
     implicit none
-    real(kind=8),intent(in)::y
+    DOUBLE PRECISION,intent(in)::y
     
     GAM=(((((((.035868343*Y-.193527818)*Y+.482199394)*Y- &
    .756704078)*Y+.918206857)*Y-.897056937)*Y+.988205891)*Y &
@@ -4954,11 +5237,11 @@ real(kind=8) function gam(Y)
     return
 end function gam
 
-REAL(kind=8) FUNCTION GAMMAS(X)
+DOUBLE PRECISION FUNCTION GAMMAS(X)
    USE INTERFACE_FP_EQUAL
    implicit none
-   real(kind=8),intent(in)::x
-   real(kind=8)::z,za,gam
+   DOUBLE PRECISION,intent(in)::x
+   DOUBLE PRECISION::z,za,gam
    
    Z=X
    IF(Z .LE. 0.0D0 .OR. Z .GE. 70.0D0) THEN
@@ -4996,13 +5279,13 @@ END FUNCTION GAMMAS
 !   = 0       = 1                    = 2          =3 
 !*********************************************************************
 
-REAL(kind=8) FUNCTION PHIFN(Z,nfn)
+DOUBLE PRECISION FUNCTION PHIFN(Z,nfn)
     implicit none
-    real(kind=8), intent(in)::Z
-    integer(kind=4),intent(in)::nfn
+    DOUBLE PRECISION, intent(in)::Z
+    integer,intent(in)::nfn
     
-    real(kind=8)::z2,ord,e,g
-   
+    DOUBLE PRECISION::z2,ord,e,g
+   phifn = 0
    SELECT CASE (nfn)
    
    CASE (0)    ! Normal distribution
@@ -5049,13 +5332,14 @@ END FUNCTION PHIFN
 !   = 0       = 1                    = 2          =3 
 !*********************************************************************
 
-real(kind=8) FUNCTION PHIY(Z,nfn)
+DOUBLE PRECISION FUNCTION PHIY(Z,nfn)
     implicit none
-    real(kind=8),intent(in)::Z
-    integer(kind=4),intent(in)::nfn
+    DOUBLE PRECISION,intent(in)::Z
+    integer,intent(in)::nfn
     
-    real(kind=8)::az,fn
+    DOUBLE PRECISION::az,fn
    
+   phiy = 0
    SELECT CASE (nfn)
    
    CASE (0)    ! Normal distribution
@@ -5129,7 +5413,7 @@ SUBROUTINE getdnplus(dnplus,n,n4)
     implicit none
     integer,intent(in)::n,n4
     integer::i,j,row,col1,col2,n2
-    real(kind=8)::dnplus(n4)
+    DOUBLE PRECISION::dnplus(n4)
     
     n2 = n*(n+1)/2
     dnplus = 0.0
@@ -5166,7 +5450,7 @@ SUBROUTINE getUnp(unp,n,n4)
     implicit none
     integer,intent(in)::n,n4
     integer::i,j,row,col
-    real(kind=8)::unp(n4)
+    DOUBLE PRECISION::unp(n4)
     
     unp = 0
     do i=1,n
@@ -5182,8 +5466,8 @@ subroutine getInKSprime(InKS,S,n,nStar,n4)
     implicit none
     integer,intent(in)::n,n4,nStar
     integer::row,n2,num,indent,sstart,ksstart
-    real(kind=8)::InKS(n4)
-    real(kind=8),intent(in)::S(nStar)
+    DOUBLE PRECISION::InKS(n4)
+    DOUBLE PRECISION,intent(in)::S(nStar)
     
     InKS = 0
     n2 = n*n
@@ -5201,9 +5485,9 @@ subroutine getSStar(vechS, n, nStar, sStar)
     implicit none
     integer,intent(in)::n,nStar
     integer::n2,n2nStar,n4!,i
-    real(kind=8),intent(in)::vechS(nStar)
-    real(kind=8)::sStar(nStar*nStar)
-    real(kind=8),allocatable::dnplus(:),unp(:),InKS(:),InKSprime(:),work(:)
+    DOUBLE PRECISION,intent(in)::vechS(nStar)
+    DOUBLE PRECISION::sStar(nStar*nStar)
+    DOUBLE PRECISION,allocatable::dnplus(:),unp(:),InKS(:),InKSprime(:),work(:)
 
     n2 = n*n
     n2nStar = n2 * nStar
@@ -5231,7 +5515,7 @@ end subroutine getSStar
 SUBROUTINE TRP(A,B,MA,NA)   
     implicit none
     integer::ma,na,i,j
-    real(kind=8)::a(ma,na),b(na,ma)
+    DOUBLE PRECISION::a(ma,na),b(na,ma)
     do i=1,na
         do j=1,ma
             b(i,j) = a(j, i)
@@ -5242,7 +5526,7 @@ end subroutine trp
 !Calculates ratio of Standard Normal pdfs PHI(newB)/PHI(origB)
 subroutine GET_PHI_RATIO(newB,origB, phiRatio)
     implicit none
-    REAL(KIND=8)::newB,origB,phiratio
+    DOUBLE PRECISION::newB,origB,phiratio
     PHIRATIO = exp((origB*origB-newB*newB)/2)
 END subroutine GET_PHI_RATIO
 
@@ -5250,7 +5534,7 @@ END subroutine GET_PHI_RATIO
 subroutine getSDev(n, length, Var, sdev)
     implicit none
     integer::n, length, i, j, place
-    real(kind=8)::Var(length*(length+1)/2), sdev
+    DOUBLE PRECISION::Var(length*(length+1)/2), sdev
     place = 1
     do i=1,length
         do j=1,i
